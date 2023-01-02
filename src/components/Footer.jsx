@@ -3,10 +3,7 @@ const Footer = (props) => {
     <>
       <div className="footer">
         <div className="footer__logo">
-          <img
-            src="http://127.0.0.1:3000/img/logo-green.png"
-            alt="Natours logo"
-          />
+          <img src="/img/logo-green.png" alt="Natours logo" />
         </div>
         <ul className="footer__nav">
           <li>
