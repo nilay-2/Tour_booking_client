@@ -285,11 +285,7 @@ const Tour = ({ Header, Footer, Loader, Map, Error }) => {
         <section className="section-cta">
           <div className="cta">
             <div className="cta__img cta__img--logo">
-              <img
-                src="http://127.0.0.1:3000/img/logo-white.png"
-                alt="Natours logo"
-                className=""
-              />
+              <img src="/img/logo-white.png" alt="Natours logo" className="" />
             </div>
             <img
               src={`http://127.0.0.1:3000/img/tours/${tour.images[1]}`}
