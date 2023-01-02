@@ -49,7 +49,7 @@ const ResetPassword = ({ Header, Footer }) => {
       });
     }
     e.target.textContent = "RESET PASSWORD";
-    console.log(d);
+    // console.log(d);
     return;
   };
   return (

@@ -21,7 +21,7 @@ const Tour = ({ Header, Footer, Loader, Map, Error }) => {
         },
       });
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       if (data.status === "success") {
         setTour(data.tour);
         setIsLoading(false);
@@ -50,7 +50,7 @@ const Tour = ({ Header, Footer, Loader, Map, Error }) => {
       toast.error(`${d.message}`);
       return;
     }
-    console.log(d.session.url);
+    // console.log(d.session.url);
     location.assign(d.session.url);
   };
 

@@ -45,7 +45,7 @@ const Account = ({ Header, Footer, Loader, Error }) => {
       }
     );
     const d = await res.json();
-    console.log(d);
+    // console.log(d);
     if (d.status === "success") {
       toast.success(`${d.message}`, {
         position: "top-center",
@@ -129,7 +129,7 @@ const Account = ({ Header, Footer, Loader, Error }) => {
       body: form,
     });
     const d = await res.json();
-    console.log(d);
+    // console.log(d);
     if (d.status === "success") {
       setLocalStorage("userData", d.updatedUser);
       toast.success(`Updated successfully`, {
