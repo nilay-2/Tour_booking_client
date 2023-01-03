@@ -16,6 +16,7 @@ const Header = () => {
       method: "get",
       credentials: "include",
       headers: {
+        "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
       },
     });

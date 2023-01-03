@@ -41,6 +41,7 @@ const Tour = ({ Header, Footer, Loader, Map, Error }) => {
         method: "get",
         credentials: "include",
         headers: {
+          "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
         },
       }

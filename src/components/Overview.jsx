@@ -11,6 +11,7 @@ const Overview = ({ Header, Footer, Loader }) => {
       const res = await fetch(`${BACKEND_URL}/api/v1/tours`, {
         method: "get",
         headers: {
+          "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
         },
       });
