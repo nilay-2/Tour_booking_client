@@ -7,16 +7,12 @@ const Overview = ({ Header, Footer, Loader }) => {
   useEffect(() => {
     document.title = "Natours app | All tours";
     const fetchData = async () => {
-      const res = await fetch(
-        "https://tour-booking-server.vercel.app/api/v1/tours",
-        {
-          method: "get",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      );
+      const res = await fetch("http://127.0.0.1:3000/api/v1/tours", {
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const tours = await res.json();
       setData(tours.data);
       setIsLoading(false);
