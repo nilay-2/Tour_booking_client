@@ -30,3 +30,5 @@ export const clearInput = (state, setState) => {
   });
   setState((prev) => ({ ...prev, ...newState }));
 };
+
+export const BACKEND_URL = "https://tour-booking-server.vercel.app";

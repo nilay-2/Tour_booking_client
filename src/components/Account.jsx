@@ -3,6 +3,7 @@ import { setLocalStorage } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getFormInput, clearInput } from "./utils/util";
+import { BACKEND_URL } from "./utils/util";
 const Account = ({ Header, Footer, Loader, Error }) => {
   const [user, setUser] = useState();
   const [file, setFile] = useState();

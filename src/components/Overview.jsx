@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getLocaleDate } from "./utils/util";
+import { BACKEND_URL } from "./utils/util";
 const Overview = ({ Header, Footer, Loader }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -7,7 +8,7 @@ const Overview = ({ Header, Footer, Loader }) => {
   useEffect(() => {
     document.title = "Natours app | All tours";
     const fetchData = async () => {
-      const res = await fetch("http://127.0.0.1:3000/api/v1/tours", {
+      const res = await fetch(`${BACKEND_URL}/api/v1/tours`, {
         method: "get",
         headers: {
           "Content-Type": "application/json",
