@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BACKEND_URL } from "./utils/util";
 const Header = () => {
   const [userInfo, setUserInfo] = useState();
   useEffect(() => {
@@ -11,7 +12,7 @@ const Header = () => {
     }
   }, []);
   const logout = async () => {
-    const res = await fetch("http://127.0.0.1:3000/api/v1/users/logout", {
+    const res = await fetch(`${BACKEND_URL}/api/v1/users/logout`, {
       method: "get",
       credentials: "include",
       headers: {
@@ -65,7 +66,7 @@ const Header = () => {
               </a>
               <a href="/me" className="nav__el">
                 <img
-                  src={`http://127.0.0.1:3000/img/users/${userInfo.photo}`}
+                  src={`${BACKEND_URL}/img/users/${userInfo.photo}`}
                   alt="User photo"
                   className="nav__user-img"
                 />
