@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getFormInput, clearInput } from "./utils/util";
+import { getFormInput, clearInput, BACKEND_URL } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const ForgotPassword = ({ Header, Footer }) => {
@@ -17,16 +17,14 @@ const ForgotPassword = ({ Header, Footer }) => {
     }
     e.target.textContent = "PROCESSING...";
     const myPromise = new Promise(async function (resolve, reject) {
-      const res = await fetch(
-        "http://127.0.0.1:3000/api/v1/users/forgetPassword",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(email),
-        }
-      );
+      const res = await fetch(`${BACKEND_URL}/api/v1/users/forgetPassword`, {
+        method: "POST",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(email),
+      });
       const d = await res.json();
       if (d.status === "success") {
         clearInput(email, setEmail);

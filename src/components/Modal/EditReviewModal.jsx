@@ -1,6 +1,8 @@
 import ReactDOM from "react-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BACKEND_URL } from "../utils/util";
+
 export default ({ isOpen, closeModal, tourId, reviewInfo }) => {
   const closeOnOverlay = () => {
     closeModal(false);
@@ -18,17 +20,15 @@ export default ({ isOpen, closeModal, tourId, reviewInfo }) => {
       return;
     }
     e.target.textContent = "PROCESSING...";
-    const res = await fetch(
-      `http://127.0.0.1:3000/api/v1/reviews/tour/${tourId}`,
-      {
-        method: "PATCH",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(reviewObj),
-      }
-    );
+    const res = await fetch(`${BACKEND_URL}/api/v1/reviews/tour/${tourId}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reviewObj),
+    });
     const data = await res.json();
     if (data.status === "success") {
       toast.success("Review updated successfully!");

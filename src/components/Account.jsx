@@ -34,17 +34,15 @@ const Account = ({ Header, Footer, Loader, Error }) => {
   // user password update
   const updateUserPass = async (e) => {
     e.preventDefault();
-    const res = await fetch(
-      "http://127.0.0.1:3000/api/v1/users/updatePassword",
-      {
-        method: "PATCH",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userPass),
-      }
-    );
+    const res = await fetch(`${BACKEND_URL}/api/v1/users/updatePassword`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userPass),
+    });
     const d = await res.json();
     // console.log(d);
     if (d.status === "success") {
@@ -86,17 +84,15 @@ const Account = ({ Header, Footer, Loader, Error }) => {
     if (!user.photo.startsWith("default")) {
       obj.fileDelete = user.photo;
     }
-    const res = await fetch(
-      "http://127.0.0.1:3000/api/v1/users/deleteProfilePic",
-      {
-        method: "PATCH",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(obj),
-      }
-    );
+    const res = await fetch(`${BACKEND_URL}/api/v1/users/deleteProfilePic`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(obj),
+    });
     const d = await res.json();
     if (d.status === "success") {
       setLocalStorage("userData", d.updatedUser);
@@ -124,9 +120,12 @@ const Account = ({ Header, Footer, Loader, Error }) => {
       form.append("fileDelete", user.photo);
     }
 
-    const res = await fetch("http://127.0.0.1:3000/api/v1/users/updateMe", {
+    const res = await fetch(`${BACKEND_URL}/api/v1/users/updateMe`, {
       method: "PATCH",
       credentials: "include",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
       body: form,
     });
     const d = await res.json();
@@ -279,7 +278,7 @@ const Account = ({ Header, Footer, Loader, Error }) => {
                   <div className="form__group form__photo-upload">
                     <img
                       className="form__user-photo"
-                      src={`http://127.0.0.1:3000/img/users/${user.photo}`}
+                      src={`${BACKEND_URL}/img/users/${user.photo}`}
                       alt="User photo"
                     />
                     <input

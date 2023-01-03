@@ -1,6 +1,8 @@
 import ReactDOM from "react-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BACKEND_URL } from "../utils/util";
+
 export default ({ deleteOpen, closeDeleteReviewModal, tourId }) => {
   const closeModal = () => {
     closeDeleteReviewModal(false);
@@ -8,16 +10,14 @@ export default ({ deleteOpen, closeDeleteReviewModal, tourId }) => {
 
   const deleteReview = async (e) => {
     e.target.textContent = "PROCESSING...";
-    const res = await fetch(
-      `http://127.0.0.1:3000/api/v1/reviews/tour/${tourId}`,
-      {
-        method: "DELETE",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await fetch(`${BACKEND_URL}/api/v1/reviews/tour/${tourId}`, {
+      method: "DELETE",
+      credentials: "include",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+    });
     const data = await res.json();
     if (data.status === "success") {
       toast.success(`${data.message}`, {

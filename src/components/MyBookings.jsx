@@ -3,6 +3,7 @@ import { getLocaleDate } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import { BACKEND_URL } from "./utils/util";
 const MyBookings = ({ Header, Footer, Loader, NoBookings }) => {
   const [tours, setTours] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -11,16 +12,14 @@ const MyBookings = ({ Header, Footer, Loader, NoBookings }) => {
   useEffect(() => {
     document.title = "Natours | My tours";
     const myTourBookings = async () => {
-      const res = await fetch(
-        "http://127.0.0.1:3000/api/v1/bookings/myTourBookings",
-        {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = await fetch(`${BACKEND_URL}/api/v1/bookings/myTourBookings`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      });
       const data = await res.json();
       if (data.status === "success") {
         setTours(data.myBookings);
@@ -35,17 +34,15 @@ const MyBookings = ({ Header, Footer, Loader, NoBookings }) => {
   }, []);
   const cancelBooking = async (e, tour) => {
     e.target.textContent = "PROCESSING...";
-    const res = await fetch(
-      "http://127.0.0.1:3000/api/v1/bookings/cancelBooking",
-      {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ tour }),
-      }
-    );
+    const res = await fetch(`${BACKEND_URL}/api/v1/bookings/cancelBooking`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ tour }),
+    });
     const data = await res.json();
     e.target.textContent = "cancel booking";
     if (data.status === "success") {
@@ -87,7 +84,7 @@ const MyBookings = ({ Header, Footer, Loader, NoBookings }) => {
                       <div className="card__picture-overlay">&nbsp;</div>
                       <img
                         // src="img/tour-1-cover.jpg"
-                        src={`http://127.0.0.1:3000/img/tours/${tour.tour.imageCover}`}
+                        src={`${BACKEND_URL}/img/tours/${tour.tour.imageCover}`}
                         alt="Tour 1"
                         className="card__picture-img"
                       />

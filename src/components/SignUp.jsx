@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getFormInput, clearInput, setLocalStorage } from "./utils/util";
+import {
+  getFormInput,
+  clearInput,
+  setLocalStorage,
+  BACKEND_URL,
+} from "./utils/util";
 const SignUp = ({ Header, Footer }) => {
   useEffect(() => {
     document.title = "Natours | Create an account";
@@ -17,10 +22,11 @@ const SignUp = ({ Header, Footer }) => {
 
   const submitData = async (e) => {
     e.target.textContent = "PROCESSING...";
-    const res = await fetch("http://127.0.0.1:3000/api/v1/users/signup", {
+    const res = await fetch(`${BACKEND_URL}/api/v1/users/signup`, {
       method: "POST",
       credentials: "include",
       headers: {
+        "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),

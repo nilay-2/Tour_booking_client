@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getFormInput, clearInput } from "./utils/util";
+import { getFormInput, clearInput, BACKEND_URL } from "./utils/util";
 import EditReviewModal from "./Modal/EditReviewModal";
 import DeleteReviewModal from "./Modal/DeleteReviewModal";
 const MyReviews = ({ Header, Footer, Loader }) => {
@@ -23,16 +23,14 @@ const MyReviews = ({ Header, Footer, Loader }) => {
       setIsLoading(false);
     }
     const fetchTourData = async () => {
-      const res = await fetch(
-        `http://127.0.0.1:3000/api/v1/bookings/myTourBookings`,
-        {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = await fetch(`${BACKEND_URL}/api/v1/bookings/myTourBookings`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      });
       const data = await res.json();
       if (data.status === "success") {
         setTourData(data.myBookings);
@@ -51,17 +49,15 @@ const MyReviews = ({ Header, Footer, Loader }) => {
     }
     e.target.textContent = "PROCESSING...";
     const myPromise = new Promise(async function (resolve, reject) {
-      const res = await fetch(
-        `http://127.0.0.1:3000/api/v1/tours/${tourId}/reviews`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(reviewInfo),
-        }
-      );
+      const res = await fetch(`${BACKEND_URL}/api/v1/tours/${tourId}/reviews`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(reviewInfo),
+      });
       const data = await res.json();
       if (data.status === "success") {
         resolve("Success");
@@ -134,7 +130,7 @@ const MyReviews = ({ Header, Footer, Loader }) => {
                   <div className="tour-detail">
                     <div className="card--review"></div>
                     <img
-                      src={`http://127.0.0.1:3000/img/tours/${tour.tour.imageCover}`}
+                      src={`${BACKEND_URL}/img/tours/${tour.tour.imageCover}`}
                       alt=""
                     />
                     <span>{tour.tour.name}</span>
@@ -144,7 +140,7 @@ const MyReviews = ({ Header, Footer, Loader }) => {
                   <div className="profile-detail">
                     <div className="profile-image">
                       <img
-                        src={`http://127.0.0.1:3000/img/users/${user.photo}`}
+                        src={`${BACKEND_URL}/img/users/${user.photo}`}
                         alt=""
                       />
                     </div>

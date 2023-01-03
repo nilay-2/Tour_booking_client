@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getFormInput, clearInput, setLocalStorage } from "./utils/util";
+import {
+  getFormInput,
+  clearInput,
+  setLocalStorage,
+  BACKEND_URL,
+} from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const ResetPassword = ({ Header, Footer }) => {
@@ -22,11 +27,12 @@ const ResetPassword = ({ Header, Footer }) => {
     }
     e.target.textContent = "PROCESSING. . .";
     const res = await fetch(
-      `http://127.0.0.1:3000/api/v1/users/resetPassword/${token}`,
+      `${BACKEND_URL}/api/v1/users/resetPassword/${token}`,
       {
         method: "PATCH",
         credentials: "include",
         headers: {
+          "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(passwordInfo),

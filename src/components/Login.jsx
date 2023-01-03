@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { setLocalStorage } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getFormInput, clearInput } from "./utils/util";
+import { getFormInput, clearInput, BACKEND_URL } from "./utils/util";
 const Login = ({ Header, Footer }) => {
   const [data, setData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
@@ -12,10 +12,11 @@ const Login = ({ Header, Footer }) => {
   }, []);
   const sendData = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://127.0.0.1:3000/api/v1/users/login", {
+    const res = await fetch(`${BACKEND_URL}/api/v1/users/login`, {
       method: "post",
       credentials: "include",
       headers: {
+        "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),

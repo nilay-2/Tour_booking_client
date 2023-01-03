@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getLocaleDate } from "./utils/util";
+import { BACKEND_URL } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const Tour = ({ Header, Footer, Loader, Map, Error }) => {
@@ -13,10 +14,11 @@ const Tour = ({ Header, Footer, Loader, Map, Error }) => {
       setUser(JSON.parse(localStorage.getItem("userData")));
     }
     const fetchData = async () => {
-      const res = await fetch(`http://127.0.0.1:3000/api/v1/tours/${slug}`, {
+      const res = await fetch(`${BACKEND_URL}/api/v1/tours/${slug}`, {
         method: "get",
         // credentials: "include",
         headers: {
+          "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
         },
       });
@@ -36,7 +38,7 @@ const Tour = ({ Header, Footer, Loader, Map, Error }) => {
   const makeCheckout = async (tourId, slotId, e) => {
     e.target.textContent = "PROCESSING...";
     const res = await fetch(
-      `http://127.0.0.1:3000/api/v1/bookings/checkout-session/${tourId}/slot/${slotId}`,
+      `${BACKEND_URL}/api/v1/bookings/checkout-session/${tourId}/slot/${slotId}`,
       {
         method: "get",
         credentials: "include",
@@ -66,7 +68,7 @@ const Tour = ({ Header, Footer, Loader, Map, Error }) => {
           <div className="header__hero">
             <div className="header__hero-overlay">&nbsp;</div>
             <img
-              src={`http://127.0.0.1:3000/img/tours/${tour.imageCover}`}
+              src={`${BACKEND_URL}/img/tours/${tour.imageCover}`}
               alt={`${tour.name}`}
               className="header__hero-img"
             />
@@ -152,7 +154,7 @@ const Tour = ({ Header, Footer, Loader, Map, Error }) => {
                     return (
                       <div className="overview-box__detail" key={i}>
                         <img
-                          src={`http://127.0.0.1:3000/img/users/${guide.photo}`}
+                          src={`${BACKEND_URL}/img/users/${guide.photo}`}
                           alt="Lead guide"
                           className="overview-box__img"
                         />
@@ -237,7 +239,7 @@ const Tour = ({ Header, Footer, Loader, Map, Error }) => {
               <div className="picture-box" key={i}>
                 <img
                   className={`picture-box__img picture-box__img--${i + 1}`}
-                  src={`http://127.0.0.1:3000/img/tours/${img}`}
+                  src={`${BACKEND_URL}/img/tours/${img}`}
                   alt="The Park Camper Tour 1"
                 />
               </div>
@@ -256,7 +258,7 @@ const Tour = ({ Header, Footer, Loader, Map, Error }) => {
                 <div className="reviews__card" key={i}>
                   <div className="reviews__avatar">
                     <img
-                      src={`http://127.0.0.1:3000/img/users/${review.user.photo}`}
+                      src={`${BACKEND_URL}/img/users/${review.user.photo}`}
                       alt="Jim Brown"
                       className="reviews__avatar-img"
                     />
@@ -289,12 +291,12 @@ const Tour = ({ Header, Footer, Loader, Map, Error }) => {
               <img src="/img/logo-white.png" alt="Natours logo" className="" />
             </div>
             <img
-              src={`http://127.0.0.1:3000/img/tours/${tour.images[1]}`}
+              src={`${BACKEND_URL}/img/tours/${tour.images[1]}`}
               alt=""
               className="cta__img cta__img--1"
             />
             <img
-              src={`http://127.0.0.1:3000/img/tours/${tour.images[2]}`}
+              src={`${BACKEND_URL}/img/tours/${tour.images[2]}`}
               alt=""
               className="cta__img cta__img--2"
             />
