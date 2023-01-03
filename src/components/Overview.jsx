@@ -34,7 +34,7 @@ const Overview = ({ Header, Footer, Loader }) => {
                       <div className="card__picture-overlay">&nbsp;</div>
                       <img
                         // src="img/tour-1-cover.jpg"
-                        src={`http://127.0.0.1:3000/img/tours/${tour.imageCover}`}
+                        src={`${BACKEND_URL}/img/tours/${tour.imageCover}`}
                         alt="Tour 1"
                         className="card__picture-img"
                       />
