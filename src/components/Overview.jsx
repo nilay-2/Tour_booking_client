@@ -13,6 +13,7 @@ const Overview = ({ Header, Footer, Loader }) => {
           method: "get",
           headers: {
             "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
           },
         }
       );
