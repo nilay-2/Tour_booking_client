@@ -125,6 +125,8 @@ const Account = ({ Header, Footer, Loader, Error }) => {
       credentials: "include",
       headers: {
         "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers":
+          "Origin, X-Requested-With, Content-Type, Accept",
       },
       body: form,
     });
