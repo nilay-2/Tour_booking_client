@@ -32,3 +32,4 @@ export const clearInput = (state, setState) => {
 };
 
 export const BACKEND_URL = "https://tour-booking-server.vercel.app";
+// export const BACKEND_URL = "http://127.0.0.1:3000";
