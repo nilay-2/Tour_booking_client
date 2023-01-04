@@ -124,7 +124,6 @@ const Account = ({ Header, Footer, Loader, Error }) => {
       method: "PATCH",
       credentials: "include",
       headers: {
-        "Content-Length": 76,
         "Access-Control-Allow-Origin": "*",
       },
       body: form,
