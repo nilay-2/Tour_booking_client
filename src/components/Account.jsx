@@ -121,7 +121,7 @@ const Account = ({ Header, Footer, Loader, Error }) => {
     }
 
     const res = await fetch(`${BACKEND_URL}/api/v1/users/updateMe`, {
-      mode: "no-cors",
+      mode: "opaque",
       method: "PATCH",
       credentials: "include",
       headers: {
