@@ -3,13 +3,41 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BACKEND_URL } from "./utils/util";
+import { storage } from "./utils/firebase";
+import {
+  ref,
+  uploadBytes,
+  listAll,
+  getDownloadURL,
+  uploadString,
+} from "firebase/storage";
 const Header = () => {
   const [userInfo, setUserInfo] = useState();
+  const [imageURL, setImageURL] = useState("");
   useEffect(() => {
+    if (localStorage.getItem("userData")) {
+    }
+
     const data = JSON.parse(localStorage.getItem("userData"));
     if (data) {
       setUserInfo(data);
     }
+    const imageListRef = ref(storage, "images/users/");
+    listAll(imageListRef).then((response) => {
+      response.items.forEach((item) => {
+        getDownloadURL(item).then((url) => {
+          const currUserPhoto = JSON.parse(
+            localStorage.getItem("userData")
+          ).photo;
+          const currImageRef = ref(storage, url);
+          // console.log(currImageRef.name);
+          // console.log(imageFileName);
+          if (currImageRef.name === currUserPhoto) {
+            setImageURL(url);
+          }
+        });
+      });
+    });
   }, []);
   const logout = async () => {
     const res = await fetch(`${BACKEND_URL}/api/v1/users/logout`, {
@@ -66,11 +94,15 @@ const Header = () => {
                 Log out
               </a>
               <a href="/me" className="nav__el">
-                <img
-                  src={`${BACKEND_URL}/img/users/${userInfo.photo}`}
-                  alt="User photo"
-                  className="nav__user-img"
-                />
+                {userInfo.photo != "default.jpg" ? (
+                  <img
+                    src={`${imageURL}`}
+                    alt="User photo"
+                    className="nav__user-img"
+                  />
+                ) : (
+                  <img src="/img/default.jpg" className="nav__user-img" />
+                )}
                 <span>{userInfo.name.split(" ")[0]}</span>
               </a>
             </>

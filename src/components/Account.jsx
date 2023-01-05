@@ -4,33 +4,70 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getFormInput, clearInput } from "./utils/util";
 import { BACKEND_URL } from "./utils/util";
+import { storage } from "./utils/firebase";
+import {
+  ref,
+  uploadBytes,
+  listAll,
+  getDownloadURL,
+  uploadString,
+  deleteObject,
+} from "firebase/storage";
+import Resizer from "react-image-file-resizer";
+const resizeFile = (file) =>
+  new Promise((resolve) => {
+    Resizer.imageFileResizer(file, 800, 800, "JPEG", 100, 0, (uri) => {
+      resolve(uri);
+    });
+  });
 const Account = ({ Header, Footer, Loader, Error }) => {
   const [user, setUser] = useState();
   const [file, setFile] = useState();
-  const [data, setData] = useState({
-    name: `${
-      JSON.parse(localStorage.getItem("userData"))
-        ? JSON.parse(localStorage.getItem("userData")).name
-        : ""
-    }`,
-    email: `${
-      JSON.parse(localStorage.getItem("userData"))
-        ? JSON.parse(localStorage.getItem("userData")).email
-        : ""
-    }`,
-  });
+  const [isLoading, setIsLoading] = useState(true);
+  const [name, setName] = useState(
+    localStorage.getItem("userData")
+      ? { name: JSON.parse(localStorage.getItem("userData")).name }
+      : { name: "" }
+  );
+  const [email, setEmail] = useState(
+    localStorage.getItem("userData")
+      ? { email: JSON.parse(localStorage.getItem("userData")).email }
+      : { email: "" }
+  );
   const [userPass, setUserPass] = useState({
     passwordCurrent: "",
     password: "",
     passwordConfirm: "",
   });
+  const [imageFileName, setImageFileName] = useState("");
+  const [imageURL, setImageURL] = useState("");
+  // firebase imageList reference to access all images
 
-  const getUserPhoto = (e) => {
-    setFile(e.target.files[0]);
-  };
+  useEffect(() => {
+    document.title = "Natours | Your account settings";
+    if (localStorage.getItem("userData")) {
+      setUser(JSON.parse(localStorage.getItem("userData")));
+      setIsLoading(false);
+    }
+    const imageListRef = ref(storage, "images/users/");
 
-  // clear password inputs
-
+    listAll(imageListRef).then((response) => {
+      response.items.forEach((item) => {
+        getDownloadURL(item).then((url) => {
+          const currUserPhoto = JSON.parse(
+            localStorage.getItem("userData")
+          ).photo;
+          const currImageRef = ref(storage, url);
+          // console.log(currImageRef.name);
+          // console.log(imageFileName);
+          if (currImageRef.name === currUserPhoto) {
+            setImageURL(url);
+          }
+        });
+      });
+    });
+  }, []);
+  // console.log(imageURL);
   // user password update
   const updateUserPass = async (e) => {
     e.preventDefault();
@@ -59,89 +96,92 @@ const Account = ({ Header, Footer, Loader, Error }) => {
     clearInput(userPass, setUserPass);
     return;
   };
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    document.title = "Natours | Your account settings";
-    if (localStorage.getItem("userData")) {
-      setUser(JSON.parse(localStorage.getItem("userData")));
-      setIsLoading(false);
-    }
-  }, []);
 
-  // delete user profile image
-  const deleteUserPhoto = async (e) => {
-    e.preventDefault();
-    if (user.photo === "default.jpg") {
-      toast.error("There is no profile image.", {
-        position: "top-center",
-        autoClose: false,
-      });
-      return;
+  // get user photo
+  const getUserPhoto = (e) => {
+    if (e.target.files[0]) {
+      setFile(e.target.files[0]);
     }
-    const obj = {
-      photo: `default.jpg`,
-    };
-    if (!user.photo.startsWith("default")) {
-      obj.fileDelete = user.photo;
-    }
-    const res = await fetch(`${BACKEND_URL}/api/v1/users/deleteProfilePic`, {
-      method: "PATCH",
-      credentials: "include",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(obj),
-    });
-    const d = await res.json();
-    if (d.status === "success") {
-      setLocalStorage("userData", d.updatedUser);
-      toast.success("Profile picture removed successfully.", {
-        position: "top-center",
-      });
-      setTimeout(() => {
-        location.reload(true);
-      }, 2000);
-    } else {
-      toast.error(`${d.message}`);
-    }
-    return;
   };
 
-  // user data
+  // update user data
   const submitUserData = async (e) => {
     e.preventDefault();
-    e.target.textContent = "UPDATING...";
-    const form = new FormData();
-    form.append("name", data.name);
-    form.append("email", data.email);
-    if (file) {
-      form.append("photo", file);
-      form.append("fileDelete", user.photo);
+    e.target.textContent = "updating...";
+    if (!name.name || !email.email) {
+      toast.error("Email and username are required!");
+      return;
     }
-
+    const dataObj = { name: name.name, email: email.email };
+    if (file) {
+      const fileName = `user-${email.email}-${Date.now()}.jpeg`;
+      setImageFileName(fileName);
+      dataObj.photo = fileName;
+      // firebase image reference
+      const resizedFile = await resizeFile(file);
+      const imageRef = ref(storage, `images/users/${fileName}`);
+      // uploadBytes(imageRef, file);
+      uploadString(imageRef, resizedFile, "data_url");
+    }
     const res = await fetch(`${BACKEND_URL}/api/v1/users/updateMe`, {
       method: "PATCH",
       credentials: "include",
       headers: {
+        "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers":
-          "Origin, X-Requested-With, Content-Type, Accept",
       },
-      body: form,
+      body: JSON.stringify(dataObj),
     });
-    const d = await res.json();
-    // console.log(d);
-    if (d.status === "success") {
-      setLocalStorage("userData", d.updatedUser);
-      toast.success(`Updated successfully`, {
-        position: "top-center",
+
+    const data = await res.json();
+    e.target.textContent = "save settings";
+    if (data.status === "success") {
+      setLocalStorage("userData", data.updatedUser);
+      toast.success("Updated successfully!", {
+        autoClose: false,
       });
       setTimeout(() => {
         location.reload(true);
-      }, 2000);
+      }, 1000);
     } else {
-      toast.error(`${d.message}`);
+      toast.error("Error occurred while updating user info!");
+    }
+    // console.log(data);
+    return;
+  };
+
+  // delete user profile image
+  const deleteProfilePic = async (e) => {
+    e.preventDefault();
+    console.log(imageURL);
+    const imageRef = ref(storage, imageURL);
+    deleteObject(imageRef).then(() => {
+      console.log("image delete successfully!");
+    });
+    const res = await fetch(`${BACKEND_URL}/api/v1/users/deleteProfilePic`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        name: name.name,
+        email: email.email,
+        photo: "default.jpg",
+      }),
+    });
+    const data = await res.json();
+    if (data.status === "success") {
+      setLocalStorage("userData", data.updatedUser);
+      toast.success("Deleted successfully!", {
+        autoClose: false,
+      });
+      setTimeout(() => {
+        location.reload(true);
+      }, 1000);
+    } else {
+      toast.error("Error occurred while updating user info!");
     }
     return;
   };
@@ -156,7 +196,6 @@ const Account = ({ Header, Footer, Loader, Error }) => {
   } else if (!isLoading) {
     return (
       <>
-        <ToastContainer />
         <Header />
         <main className="main">
           <div className="user-view">
@@ -248,15 +287,15 @@ const Account = ({ Header, Footer, Loader, Error }) => {
                       Name
                     </label>
                     <input
-                      value={data.name}
                       className="form__input"
                       id="name"
                       type="text"
                       name="name"
                       required
                       placeholder="Name"
+                      defaultValue={user.name}
                       onChange={(e) => {
-                        getFormInput(setData, e);
+                        getFormInput(setName, e);
                       }}
                     />
                   </div>
@@ -265,24 +304,31 @@ const Account = ({ Header, Footer, Loader, Error }) => {
                       Email address
                     </label>
                     <input
-                      value={data.email}
                       className="form__input"
                       id="email"
                       name="email"
                       type="email"
                       required
                       placeholder="Email"
+                      defaultValue={user.email}
                       onChange={(e) => {
-                        getFormInput(setData, e);
+                        getFormInput(setEmail, e);
                       }}
                     />
                   </div>
                   <div className="form__group form__photo-upload">
-                    <img
-                      className="form__user-photo"
-                      src={`${BACKEND_URL}/img/users/${user.photo}`}
-                      alt="User photo"
-                    />
+                    {user.photo != "default.jpg" ? (
+                      <img
+                        className="form__user-photo"
+                        src={`${imageURL}`}
+                        alt="User photo"
+                      />
+                    ) : (
+                      <img
+                        className="form__user-photo"
+                        src="/img/default.jpg"
+                      />
+                    )}
                     <input
                       type="file"
                       accept="image/*"
@@ -295,7 +341,7 @@ const Account = ({ Header, Footer, Loader, Error }) => {
                     <div className="remove--pic">
                       <button
                         className="btn btn--small btn--red"
-                        onClick={deleteUserPhoto}
+                        onClick={deleteProfilePic}
                       >
                         Discard image
                       </button>

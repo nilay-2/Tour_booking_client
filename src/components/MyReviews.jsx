@@ -4,6 +4,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { getFormInput, clearInput, BACKEND_URL } from "./utils/util";
 import EditReviewModal from "./Modal/EditReviewModal";
 import DeleteReviewModal from "./Modal/DeleteReviewModal";
+import { storage } from "./utils/firebase";
+import {
+  ref,
+  uploadBytes,
+  listAll,
+  getDownloadURL,
+  uploadString,
+} from "firebase/storage";
 const MyReviews = ({ Header, Footer, Loader }) => {
   const [user, setUser] = useState();
   const [tourData, setTourData] = useState();
@@ -16,12 +24,30 @@ const MyReviews = ({ Header, Footer, Loader }) => {
   // review delete -- modal state
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [tourId, setTourId] = useState();
+  const [imageURL, setImageURL] = useState("");
+
   useEffect(() => {
     document.title = "Natours | My reviews";
     if (localStorage.getItem("userData")) {
       setUser(JSON.parse(localStorage.getItem("userData")));
       setIsLoading(false);
     }
+    const imageListRef = ref(storage, "images/users/");
+    listAll(imageListRef).then((response) => {
+      response.items.forEach((item) => {
+        getDownloadURL(item).then((url) => {
+          const currUserPhoto = JSON.parse(
+            localStorage.getItem("userData")
+          ).photo;
+          const currImageRef = ref(storage, url);
+          // console.log(currImageRef.name);
+          // console.log(imageFileName);
+          if (currImageRef.name === currUserPhoto) {
+            setImageURL(url);
+          }
+        });
+      });
+    });
     const fetchTourData = async () => {
       const res = await fetch(`${BACKEND_URL}/api/v1/bookings/myTourBookings`, {
         method: "GET",
@@ -139,10 +165,15 @@ const MyReviews = ({ Header, Footer, Loader }) => {
                 <div className="right-section">
                   <div className="profile-detail">
                     <div className="profile-image">
-                      <img
-                        src={`${BACKEND_URL}/img/users/${user.photo}`}
-                        alt=""
-                      />
+                      {user.photo != "default.jpg" ? (
+                        <img
+                          src={`${imageURL}`}
+                          alt="User photo"
+                          className="nav__user-img"
+                        />
+                      ) : (
+                        <img src="/img/default.jpg" className="nav__user-img" />
+                      )}
                     </div>
                     <div className="name">{user.name}</div>
                     <div className="stars">
