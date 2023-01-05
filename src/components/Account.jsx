@@ -13,13 +13,13 @@ import {
   uploadString,
   deleteObject,
 } from "firebase/storage";
-import Resizer from "react-image-file-resizer";
-const resizeFile = (file) =>
-  new Promise((resolve) => {
-    Resizer.imageFileResizer(file, 800, 800, "JPEG", 100, 0, (uri) => {
-      resolve(uri);
-    });
-  });
+// import { Resizer } from "react-image-file-resizer";
+// const resizeFile = (file) =>
+//   new Promise((resolve) => {
+//     Resizer.imageFileResizer(file, 800, 800, "JPEG", 100, 0, (uri) => {
+//       resolve(uri);
+//     });
+//   });
 const Account = ({ Header, Footer, Loader, Error }) => {
   const [user, setUser] = useState();
   const [file, setFile] = useState();
