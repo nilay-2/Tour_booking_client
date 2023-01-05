@@ -118,10 +118,10 @@ const Account = ({ Header, Footer, Loader, Error }) => {
       setImageFileName(fileName);
       dataObj.photo = fileName;
       // firebase image reference
-      const resizedFile = await resizeFile(file);
+      // const resizedFile = await resizeFile(file);
       const imageRef = ref(storage, `images/users/${fileName}`);
-      // uploadBytes(imageRef, file);
-      uploadString(imageRef, resizedFile, "data_url");
+      uploadBytes(imageRef, file);
+      // uploadString(imageRef, resizedFile, "data_url");
     }
     const res = await fetch(`${BACKEND_URL}/api/v1/users/updateMe`, {
       method: "PATCH",
