@@ -199,7 +199,7 @@ const Account = ({ Header, Footer, Loader, Error }) => {
                   </a>
                 </li>
                 <li>
-                  <Link href="/myTourBookings">
+                  <Link to="/myTourBookings">
                     <svg>
                       <use href="/img/icons.svg#icon-briefcase"></use>
                     </svg>
@@ -207,7 +207,7 @@ const Account = ({ Header, Footer, Loader, Error }) => {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/myReviews">
+                  <Link to="/myReviews">
                     <svg>
                       <use href="/img/icons.svg#icon-star"></use>
                     </svg>
