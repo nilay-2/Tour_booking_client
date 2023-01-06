@@ -1364,6 +1364,7 @@ body {
 .loader-container {
   display: flex;
   justify-content: center;
+  height: auto;
   padding: 4em;
 }
 
