@@ -64,9 +64,9 @@ const Header = () => {
       <ToastContainer />
       <header className="header">
         <nav className="nav nav--tours">
-          <a href="/" className="nav__el">
+          <Link to="/" className="nav__el">
             All tours
-          </a>
+          </Link>
           <form className="nav__search">
             <button className="nav__search-btn">
               <svg>
@@ -89,7 +89,7 @@ const Header = () => {
               <a href="#" className="nav__el" onClick={logout}>
                 Log out
               </a>
-              <a href="/me" className="nav__el">
+              <Link to="/me" className="nav__el">
                 {userInfo.photo != "default.jpg" ? (
                   <img
                     src={`${imageURL}`}
@@ -100,7 +100,7 @@ const Header = () => {
                   <img src="/img/default.jpg" className="nav__user-img" />
                 )}
                 <span>{userInfo.name.split(" ")[0]}</span>
-              </a>
+              </Link>
             </>
           ) : (
             <>
