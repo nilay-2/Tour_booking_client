@@ -21,11 +21,13 @@ const Overview = ({ Header, Footer, Loader }) => {
     };
     fetchData();
   }, []);
-  if (!isLoading) {
-    return (
-      <div>
-        <Header />
-        <main className="main">
+  return (
+    <div>
+      <Header />
+      <main className="main">
+        {isLoading ? (
+          <Loader />
+        ) : (
           <div className="card-container">
             {data.map((tour, i) => {
               return (
@@ -109,13 +111,11 @@ const Overview = ({ Header, Footer, Loader }) => {
               );
             })}
           </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  } else {
-    return <Loader />;
-  }
+        )}
+      </main>
+      <Footer />
+    </div>
+  );
 };
 
 export default Overview;
