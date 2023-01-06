@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getFormInput, clearInput, setLocalStorage } from "./utils/util";
@@ -198,20 +199,20 @@ const Account = ({ Header, Footer, Loader, Error }) => {
                   </a>
                 </li>
                 <li>
-                  <a href="/myTourBookings">
+                  <Link href="/myTourBookings">
                     <svg>
                       <use href="/img/icons.svg#icon-briefcase"></use>
                     </svg>
                     My bookings
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/myReviews">
+                  <Link href="/myReviews">
                     <svg>
                       <use href="/img/icons.svg#icon-star"></use>
                     </svg>
                     My reviews
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <a href="#">
