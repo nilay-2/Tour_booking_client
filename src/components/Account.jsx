@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { setLocalStorage } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getFormInput, clearInput } from "./utils/util";
+import { getFormInput, clearInput, setLocalStorage } from "./utils/util";
 import { BACKEND_URL } from "./utils/util";
 import { storage } from "./utils/firebase";
 import {
@@ -13,13 +12,7 @@ import {
   uploadString,
   deleteObject,
 } from "firebase/storage";
-// import { Resizer } from "react-image-file-resizer";
-// const resizeFile = (file) =>
-//   new Promise((resolve) => {
-//     Resizer.imageFileResizer(file, 800, 800, "JPEG", 100, 0, (uri) => {
-//       resolve(uri);
-//     });
-//   });
+
 const Account = ({ Header, Footer, Loader, Error }) => {
   const [user, setUser] = useState();
   const [file, setFile] = useState();
@@ -54,20 +47,15 @@ const Account = ({ Header, Footer, Loader, Error }) => {
     listAll(imageListRef).then((response) => {
       response.items.forEach((item) => {
         getDownloadURL(item).then((url) => {
-          const currUserPhoto = JSON.parse(
-            localStorage.getItem("userData")
-          ).photo;
+          const currUserPhoto = JSON.parse(localStorage.getItem("userData"));
           const currImageRef = ref(storage, url);
-          // console.log(currImageRef.name);
-          // console.log(imageFileName);
-          if (currImageRef.name === currUserPhoto) {
+          if (currImageRef.name === currUserPhoto.photo) {
             setImageURL(url);
           }
         });
       });
     });
   }, []);
-  // console.log(imageURL);
   // user password update
   const updateUserPass = async (e) => {
     e.preventDefault();

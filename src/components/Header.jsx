@@ -16,11 +16,7 @@ const Header = () => {
   const [imageURL, setImageURL] = useState("");
   useEffect(() => {
     if (localStorage.getItem("userData")) {
-    }
-
-    const data = JSON.parse(localStorage.getItem("userData"));
-    if (data) {
-      setUserInfo(data);
+      setUserInfo(JSON.parse(localStorage.getItem("userData")));
     }
     const imageListRef = ref(storage, "images/users/");
     listAll(imageListRef).then((response) => {
