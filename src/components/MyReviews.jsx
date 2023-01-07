@@ -14,7 +14,7 @@ import {
 } from "firebase/storage";
 const MyReviews = ({ Header, Footer, Loader }) => {
   const [user, setUser] = useState();
-  const [tourData, setTourData] = useState();
+  const [tourData, setTourData] = useState([]);
   // review state
   const [reviewInfo, setReviewInfo] = useState({ review: "", rating: "" });
   // loader state
@@ -59,7 +59,7 @@ const MyReviews = ({ Header, Footer, Loader }) => {
       });
       const data = await res.json();
       if (data.status === "success") {
-        setTourData(data.myBookings);
+        setTourData((prev) => [...prev, ...data.myBookings]);
         setIsLoading(false);
       } else {
         setIsLoading(true);
@@ -133,23 +133,27 @@ const MyReviews = ({ Header, Footer, Loader }) => {
     setDeleteOpen(val);
     setTourId("");
   };
-  if (!isLoading) {
-    return (
-      <>
-        <EditReviewModal
-          reviewInfo={reviewInfo}
-          isOpen={isOpen}
-          closeModal={closeModal}
-          tourId={tourId}
-        />
-        <DeleteReviewModal
-          deleteOpen={deleteOpen}
-          closeDeleteReviewModal={closeDeleteReviewModal}
-          tourId={tourId}
-        />
-        <Header />
-        <main className="main" style={{ height: "auto" }}>
-          {tourData?.map((tour, i) => {
+  return (
+    <>
+      <EditReviewModal
+        reviewInfo={reviewInfo}
+        isOpen={isOpen}
+        closeModal={closeModal}
+        tourId={tourId}
+      />
+      <DeleteReviewModal
+        deleteOpen={deleteOpen}
+        closeDeleteReviewModal={closeDeleteReviewModal}
+        tourId={tourId}
+      />
+      <Header />
+      {isLoading ? (
+        <main className="main">
+          <Loader />
+        </main>
+      ) : (
+        <main className="main">
+          {tourData.map((tour, i) => {
             return (
               <div className="review-container" key={i}>
                 <div className="left-section">
@@ -258,12 +262,10 @@ const MyReviews = ({ Header, Footer, Loader }) => {
             );
           })}
         </main>
-        <Footer />
-      </>
-    );
-  } else {
-    return <Loader />;
-  }
+      )}
+      <Footer />
+    </>
+  );
 };
 
 export default MyReviews;
