@@ -147,7 +147,7 @@ const MyReviews = ({ Header, Footer, Loader }) => {
         tourId={tourId}
       />
       <Header />
-      {isLoading ? (
+      {isLoading && tourData.length === 0 ? (
         <main className="main">
           <Loader />
         </main>
