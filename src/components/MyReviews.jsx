@@ -147,122 +147,125 @@ const MyReviews = ({ Header, Footer, Loader }) => {
         tourId={tourId}
       />
       <Header />
-      {isLoading && tourData.length === 0 ? (
-        <main className="main">
+      <main className="main">
+        {isLoading ? (
           <Loader />
-        </main>
-      ) : (
-        <main className="main">
-          {tourData.map((tour, i) => {
-            return (
-              <div className="review-container" key={i}>
-                <div className="left-section">
-                  <div className="tour-detail">
-                    <div className="card--review"></div>
-                    <img
-                      src={`${BACKEND_URL}/img/tours/${tour.tour.imageCover}`}
-                      alt=""
-                    />
-                    <span>{tour.tour.name}</span>
-                  </div>
-                </div>
-                <div className="right-section">
-                  <div className="profile-detail">
-                    <div className="profile-image">
-                      {user.photo != "default.jpg" ? (
-                        <img
-                          src={`${imageURL}`}
-                          alt="User photo"
-                          className="nav__user-img"
-                        />
-                      ) : (
-                        <img src="/img/default.jpg" className="nav__user-img" />
-                      )}
-                    </div>
-                    <div className="name">{user.name}</div>
-                    <div className="stars">
-                      {" "}
-                      Rating
-                      {tour.review !== null ? (
-                        <input
-                          type="text"
-                          value={`${tour.review.rating} stars`}
-                          disabled
-                        />
-                      ) : (
-                        <input
-                          type="number"
-                          min={1}
-                          max={5}
-                          name="rating"
-                          placeholder="1 - 5"
-                          onChange={(e) => {
-                            getFormInput(setReviewInfo, e);
-                          }}
-                        />
-                      )}
+        ) : (
+          <>
+            {tourData.map((tour, i) => {
+              return (
+                <div className="review-container" key={i}>
+                  <div className="left-section">
+                    <div className="tour-detail">
+                      <div className="card--review"></div>
+                      <img
+                        src={`${BACKEND_URL}/img/tours/${tour.tour.imageCover}`}
+                        alt=""
+                      />
+                      <span>{tour.tour.name}</span>
                     </div>
                   </div>
-                  {tour.review !== null ? (
-                    <textarea
-                      cols="60"
-                      rows="3"
-                      disabled
-                      value={tour.review.review}
-                    ></textarea>
-                  ) : (
-                    <textarea
-                      name="review"
-                      cols="60"
-                      rows="3"
-                      onChange={(e) => {
-                        getFormInput(setReviewInfo, e);
-                      }}
-                    ></textarea>
-                  )}
-                  <div className="btn-section">
+                  <div className="right-section">
+                    <div className="profile-detail">
+                      <div className="profile-image">
+                        {user.photo != "default.jpg" ? (
+                          <img
+                            src={`${imageURL}`}
+                            alt="User photo"
+                            className="nav__user-img"
+                          />
+                        ) : (
+                          <img
+                            src="/img/default.jpg"
+                            className="nav__user-img"
+                          />
+                        )}
+                      </div>
+                      <div className="name">{user.name}</div>
+                      <div className="stars">
+                        {" "}
+                        Rating
+                        {tour.review !== null ? (
+                          <input
+                            type="text"
+                            value={`${tour.review.rating} stars`}
+                            disabled
+                          />
+                        ) : (
+                          <input
+                            type="number"
+                            min={1}
+                            max={5}
+                            name="rating"
+                            placeholder="1 - 5"
+                            onChange={(e) => {
+                              getFormInput(setReviewInfo, e);
+                            }}
+                          />
+                        )}
+                      </div>
+                    </div>
                     {tour.review !== null ? (
-                      <>
-                        <button
-                          className="btn-edit btn btn--yellow"
-                          style={{ marginRight: "5px" }}
-                          onClick={(e) => {
-                            openModal(
-                              tour.tour.id,
-                              tour.review.review,
-                              tour.review.rating
-                            );
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="btn"
-                          style={{ backgroundColor: "red", color: "#fff" }}
-                          onClick={(e) => {
-                            openDeleteReviewModal(tour.tour.id);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </>
+                      <textarea
+                        cols="60"
+                        rows="3"
+                        disabled
+                        value={tour.review.review}
+                      ></textarea>
                     ) : (
-                      <button
-                        className="btn-save btn btn--green"
-                        onClick={(e) => {
-                          giveReview(e, tour.tour.id);
+                      <textarea
+                        name="review"
+                        cols="60"
+                        rows="3"
+                        onChange={(e) => {
+                          getFormInput(setReviewInfo, e);
                         }}
-                      >
-                        Save
-                      </button>
+                      ></textarea>
                     )}
+                    <div className="btn-section">
+                      {tour.review !== null ? (
+                        <>
+                          <button
+                            className="btn-edit btn btn--yellow"
+                            style={{ marginRight: "5px" }}
+                            onClick={(e) => {
+                              openModal(
+                                tour.tour.id,
+                                tour.review.review,
+                                tour.review.rating
+                              );
+                            }}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="btn"
+                            style={{ backgroundColor: "red", color: "#fff" }}
+                            onClick={(e) => {
+                              openDeleteReviewModal(tour.tour.id);
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </>
+                      ) : (
+                        <button
+                          className="btn-save btn btn--green"
+                          onClick={(e) => {
+                            giveReview(e, tour.tour.id);
+                          }}
+                        >
+                          Save
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </main>
-      )}
+              );
+            })}
+          </>
+        )}
+      </main>
       <Footer />
     </>
   );
