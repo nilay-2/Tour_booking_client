@@ -17,7 +17,7 @@ import {
   getDownloadURL,
   uploadString,
 } from "firebase/storage";
-const MyReviews = ({ Header, Footer, Loader }) => {
+const MyReviews = ({ Header, Footer, Loader, ImageLoader }) => {
   const [user, setUser] = useState();
   const [tourData, setTourData] = useState([]);
   // review state
@@ -159,11 +159,26 @@ const MyReviews = ({ Header, Footer, Loader }) => {
                     <div className="profile-detail">
                       <div className="profile-image">
                         {user.photo != "default.jpg" ? (
-                          <img
-                            src={`${imageURL}`}
-                            alt="User photo"
-                            className="nav__user-img"
-                          />
+                          <>
+                            {imageURL != "" ? (
+                              <img
+                                src={`${imageURL}`}
+                                alt="User photo"
+                                className="nav__user-img"
+                              />
+                            ) : (
+                              <div
+                                className="nav__user-img"
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <ImageLoader />
+                              </div>
+                            )}
+                          </>
                         ) : (
                           <img
                             src="/img/default.jpg"

@@ -15,7 +15,7 @@ import ResetPassword from "./components/ResetPassword";
 import MyBookings from "./components/MyBookings";
 import NoBookings from "./components/NoBookings";
 import MyReviews from "./components/MyReviews";
-
+import ImageLoader from "./components/ImageLoader";
 function App() {
   return (
     <Router>
@@ -46,6 +46,7 @@ function App() {
               Footer={Footer}
               Loader={Loader}
               Error={Error}
+              ImageLoader={ImageLoader}
             />
           }
         />
@@ -80,7 +81,12 @@ function App() {
           path="/myReviews"
           exact
           element={
-            <MyReviews Header={Header} Footer={Footer} Loader={Loader} />
+            <MyReviews
+              Header={Header}
+              Footer={Footer}
+              Loader={Loader}
+              ImageLoader={ImageLoader}
+            />
           }
         />
       </Routes>

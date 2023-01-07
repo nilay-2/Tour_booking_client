@@ -14,7 +14,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 
-const Account = ({ Header, Footer, Loader, Error }) => {
+const Account = ({ Header, Footer, Loader, Error, ImageLoader }) => {
   const [user, setUser] = useState();
   const [file, setFile] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -295,11 +295,19 @@ const Account = ({ Header, Footer, Loader, Error }) => {
                   </div>
                   <div className="form__group form__photo-upload">
                     {user.photo != "default.jpg" ? (
-                      <img
-                        className="form__user-photo"
-                        src={`${imageURL}`}
-                        alt="User photo"
-                      />
+                      <>
+                        {imageURL != "" ? (
+                          <img
+                            className="form__user-photo"
+                            src={`${imageURL}`}
+                            alt="User photo"
+                          />
+                        ) : (
+                          <div className="form__user-photo-loader">
+                            <ImageLoader />
+                          </div>
+                        )}
+                      </>
                     ) : (
                       <img
                         className="form__user-photo"

@@ -11,6 +11,7 @@ import {
   getDownloadURL,
   uploadString,
 } from "firebase/storage";
+import ImageLoader from "./ImageLoader";
 const Header = () => {
   const [userInfo, setUserInfo] = useState();
   const [imageURL, setImageURL] = useState("");
@@ -76,11 +77,19 @@ const Header = () => {
               </a>
               <Link to="/me" className="nav__el">
                 {userInfo.photo != "default.jpg" ? (
-                  <img
-                    src={`${imageURL}`}
-                    alt="User photo"
-                    className="nav__user-img"
-                  />
+                  <>
+                    {imageURL != "" ? (
+                      <img
+                        src={`${imageURL}`}
+                        alt="User photo"
+                        className="nav__user-img"
+                      />
+                    ) : (
+                      <div className="nav__user-img">
+                        <ImageLoader />
+                      </div>
+                    )}
+                  </>
                 ) : (
                   <img src="/img/default.jpg" className="nav__user-img" />
                 )}
