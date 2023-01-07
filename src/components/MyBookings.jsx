@@ -61,18 +61,20 @@ const MyBookings = ({ Header, Footer, Loader, NoBookings }) => {
   return (
     <div>
       <Header />
-      <main className="main">
-        {isLoading ? (
+      {isLoading ? (
+        <main className="main">
           <Loader />
-        ) : (
-          <>
-            {tours.length === 0 ? (
-              <NoBookings
-                Header={Header}
-                Footer={Footer}
-                msg="There are no bookings!"
-              />
-            ) : (
+        </main>
+      ) : (
+        <>
+          {tours.length === 0 ? (
+            <NoBookings
+              Header={Header}
+              Footer={Footer}
+              msg="There are no bookings!"
+            />
+          ) : (
+            <main className="main">
               <div className="card-container">
                 {tours.map((tour, i) => {
                   return (
@@ -166,10 +168,10 @@ const MyBookings = ({ Header, Footer, Loader, NoBookings }) => {
                   );
                 })}
               </div>
-            )}
-          </>
-        )}
-      </main>
+            </main>
+          )}
+        </>
+      )}
       <Footer />
     </div>
   );
