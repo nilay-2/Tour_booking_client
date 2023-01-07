@@ -1,4 +1,4 @@
-const NoBookings = ({ Header, Footer, msg }) => {
+const NoBookings = ({ msg }) => {
   return (
     <div>
       <main className="main--error">

@@ -68,11 +68,7 @@ const MyBookings = ({ Header, Footer, Loader, NoBookings }) => {
       ) : (
         <>
           {tours.length === 0 ? (
-            <NoBookings
-              Header={Header}
-              Footer={Footer}
-              msg="There are no bookings!"
-            />
+            <NoBookings msg="There are no bookings!" />
           ) : (
             <main className="main">
               <div className="card-container">
