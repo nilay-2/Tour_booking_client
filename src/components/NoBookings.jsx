@@ -2,7 +2,7 @@ const NoBookings = ({ Header, Footer, msg }) => {
   return (
     <div>
       <Header />
-      <main className="main--error">
+      <main className="main">
         <div className="error">
           <div className="error__title">
             <img src="/img/noBookings.webp" alt="No bookings" />
