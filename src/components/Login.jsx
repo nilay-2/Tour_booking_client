@@ -4,7 +4,7 @@ import { setLocalStorage } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getFormInput, clearInput, BACKEND_URL } from "./utils/util";
-const Login = ({ Header, Footer }) => {
+const Login = () => {
   const [data, setData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
   useEffect(() => {
@@ -29,7 +29,7 @@ const Login = ({ Header, Footer }) => {
       setLocalStorage("userData", d.user);
       clearInput(data, setData);
       setTimeout(() => {
-        navigate("/");
+        location.assign("/");
       }, 1500);
     } else {
       toast.error(`${d.message}`, {
@@ -42,7 +42,7 @@ const Login = ({ Header, Footer }) => {
   return (
     <div>
       {/*<ToastContainer />*/}
-      <Header />
+      {/*<Header />*/}
       <main className="main">
         <div className="login-form">
           <h2 className="heading-secondary ma-bt-lg">Log into your account</h2>
@@ -113,7 +113,7 @@ const Login = ({ Header, Footer }) => {
           </div>
         </div>
       </main>
-      <Footer />
+      {/*<Footer />*/}
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { getLocaleDate } from "./utils/util";
 import { BACKEND_URL, setUserImage } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const Tour = ({ Header, Footer, Loader, Map, Error }) => {
+const Tour = ({ Loader, Map, Error }) => {
   const { slug } = useParams();
   const [tour, setTour] = useState();
   const [user, setUser] = useState();
@@ -64,7 +64,7 @@ const Tour = ({ Header, Footer, Loader, Map, Error }) => {
   // } else
   return (
     <div>
-      <Header />
+      {/*<Header />*/}
       {isLoading ? (
         <main className="main">
           <Loader />
@@ -340,7 +340,7 @@ const Tour = ({ Header, Footer, Loader, Map, Error }) => {
         </>
       )}
 
-      <Footer />
+      {/*<Footer />*/}
     </div>
   );
 };

@@ -8,7 +8,7 @@ import {
 } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const ResetPassword = ({ Header, Footer }) => {
+const ResetPassword = () => {
   useEffect(() => {
     document.title = "Natours | Reset your password";
   }, []);
@@ -60,7 +60,7 @@ const ResetPassword = ({ Header, Footer }) => {
   };
   return (
     <div>
-      <Header />
+      {/*<Header />*/}
       <main className="main" style={{ height: "100vh" }}>
         <div className="login-form">
           <h2 className="heading-secondary ma-bt-lg">Create new password</h2>
@@ -109,7 +109,7 @@ const ResetPassword = ({ Header, Footer }) => {
           </form>
         </div>
       </main>
-      <Footer />
+      {/*<Footer />*/}
     </div>
   );
 };

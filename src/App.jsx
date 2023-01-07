@@ -18,79 +18,49 @@ import MyReviews from "./components/MyReviews";
 import ImageLoader from "./components/ImageLoader";
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          exact
-          element={<Overview Header={Header} Footer={Footer} Loader={Loader} />}
-        />
-        <Route
-          path="/tours/:slug"
-          exact
-          element={
-            <Tour Header={Header} Footer={Footer} Loader={Loader} Map={Map} />
-          }
-        />
-        <Route
-          path="/login"
-          exact
-          element={<Login Header={Header} Footer={Footer} />}
-        />
-        <Route
-          path="/me"
-          exact
-          element={
-            <Account
-              Header={Header}
-              Footer={Footer}
-              Loader={Loader}
-              Error={Error}
-              ImageLoader={ImageLoader}
-            />
-          }
-        />
-        <Route
-          path="/signup"
-          exact
-          element={<SignUp Header={Header} Footer={Footer} />}
-        />
-        <Route
-          path="/forgotPassword"
-          exact
-          element={<ForgotPassword Header={Header} Footer={Footer} />}
-        />
-        <Route
-          path="/resetPassword/:token"
-          exact
-          element={<ResetPassword Header={Header} Footer={Footer} />}
-        />
-        <Route
-          path="/myTourBookings"
-          exact
-          element={
-            <MyBookings
-              Header={Header}
-              Footer={Footer}
-              Loader={Loader}
-              NoBookings={NoBookings}
-            />
-          }
-        />
-        <Route
-          path="/myReviews"
-          exact
-          element={
-            <MyReviews
-              Header={Header}
-              Footer={Footer}
-              Loader={Loader}
-              ImageLoader={ImageLoader}
-            />
-          }
-        />
-      </Routes>
-    </Router>
+    <>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" exact element={<Overview Loader={Loader} />} />
+          <Route
+            path="/tours/:slug"
+            exact
+            element={<Tour Loader={Loader} Map={Map} />}
+          />
+          <Route path="/login" exact element={<Login />} />
+          <Route
+            path="/me"
+            exact
+            element={
+              <Account
+                Loader={Loader}
+                Error={Error}
+                ImageLoader={ImageLoader}
+              />
+            }
+          />
+          <Route path="/signup" exact element={<SignUp />} />
+          <Route path="/forgotPassword" exact element={<ForgotPassword />} />
+          <Route
+            path="/resetPassword/:token"
+            exact
+            element={<ResetPassword />}
+          />
+          <Route
+            path="/myTourBookings"
+            exact
+            element={<MyBookings Loader={Loader} NoBookings={NoBookings} />}
+          />
+          <Route
+            path="/myReviews"
+            exact
+            element={<MyReviews Loader={Loader} ImageLoader={ImageLoader} />}
+          />
+        </Routes>
+        <Footer />
+      </Router>
+    </>
   );
 }
 

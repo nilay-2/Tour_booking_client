@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getLocaleDate } from "./utils/util";
 import { BACKEND_URL } from "./utils/util";
-const Overview = ({ Header, Footer, Loader }) => {
+const Overview = ({ Loader }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -24,7 +24,7 @@ const Overview = ({ Header, Footer, Loader }) => {
   }, []);
   return (
     <div>
-      <Header />
+      {/*<Header />*/}
       <main className="main">
         {isLoading ? (
           <Loader />
@@ -114,7 +114,7 @@ const Overview = ({ Header, Footer, Loader }) => {
           </div>
         )}
       </main>
-      <Footer />
+      {/*<Footer />*/}
     </div>
   );
 };

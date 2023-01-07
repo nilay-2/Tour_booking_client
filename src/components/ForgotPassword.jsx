@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { getFormInput, clearInput, BACKEND_URL } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const ForgotPassword = ({ Header, Footer }) => {
+const ForgotPassword = () => {
   useEffect(() => {
     document.title = "Natours | Get password reset link";
   }, []);
@@ -43,7 +43,7 @@ const ForgotPassword = ({ Header, Footer }) => {
   };
   return (
     <div>
-      <Header />
+      {/*<Header />*/}
       <main className="main" style={{ height: "100vh" }}>
         <div style={{ margin: "15px 0px 15px 0px", fontSize: "1.8em" }}>
           <Link to="/login" style={{ marginRight: "10px" }}>
@@ -87,7 +87,7 @@ const ForgotPassword = ({ Header, Footer }) => {
           </form>
         </div>
       </main>
-      <Footer />
+      {/*<Footer />*/}
     </div>
   );
 };

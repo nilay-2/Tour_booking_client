@@ -1,7 +1,7 @@
-const Error = ({ Header, Footer, msg }) => {
+const Error = ({ msg }) => {
   return (
     <>
-      <Header />
+      {/*<Header />*/}
       <main className="main--error">
         <div className="error">
           <div className="error__title">
@@ -13,7 +13,7 @@ const Error = ({ Header, Footer, msg }) => {
           <div className="error__msg">{msg}</div>
         </div>
       </main>
-      <Footer />
+      {/*<Footer />*/}
     </>
   );
 };

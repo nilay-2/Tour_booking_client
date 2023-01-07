@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { BACKEND_URL } from "./utils/util";
-const MyBookings = ({ Header, Footer, Loader, NoBookings }) => {
+const MyBookings = ({ Loader, NoBookings }) => {
   const [tours, setTours] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   // const [isOpen, setIsOpen] = useState(false);
@@ -60,7 +60,7 @@ const MyBookings = ({ Header, Footer, Loader, NoBookings }) => {
   };
   return (
     <div>
-      <Header />
+      {/*<Header />*/}
       {isLoading ? (
         <main className="main">
           <Loader />
@@ -168,7 +168,7 @@ const MyBookings = ({ Header, Footer, Loader, NoBookings }) => {
           )}
         </>
       )}
-      <Footer />
+      {/*<Footer />*/}
     </div>
   );
 };

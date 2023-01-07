@@ -17,7 +17,7 @@ import {
   getDownloadURL,
   uploadString,
 } from "firebase/storage";
-const MyReviews = ({ Header, Footer, Loader, ImageLoader }) => {
+const MyReviews = ({ Loader, ImageLoader }) => {
   const [user, setUser] = useState();
   const [tourData, setTourData] = useState([]);
   // review state
@@ -136,7 +136,7 @@ const MyReviews = ({ Header, Footer, Loader, ImageLoader }) => {
         closeDeleteReviewModal={closeDeleteReviewModal}
         tourId={tourId}
       />
-      <Header />
+      {/*<Header />*/}
       <main className="main">
         {isLoading ? (
           <Loader />
@@ -271,7 +271,7 @@ const MyReviews = ({ Header, Footer, Loader, ImageLoader }) => {
           </>
         )}
       </main>
-      <Footer />
+      {/*<Footer />*/}
     </>
   );
 };

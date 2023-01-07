@@ -14,7 +14,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 
-const Account = ({ Header, Footer, Loader, Error, ImageLoader }) => {
+const Account = ({ Loader, Error, ImageLoader }) => {
   const [user, setUser] = useState();
   const [file, setFile] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -163,17 +163,11 @@ const Account = ({ Header, Footer, Loader, Error, ImageLoader }) => {
     return;
   };
   if (!user) {
-    return (
-      <Error
-        Header={Header}
-        Footer={Footer}
-        msg="You are not logged in! Please log in to get access"
-      />
-    );
+    return <Error msg="You are not logged in! Please log in to get access" />;
   } else if (!isLoading) {
     return (
       <>
-        <Header />
+        {/*<Header />*/}
         <main className="main">
           <div className="user-view">
             <nav className="user-view__menu">
@@ -407,7 +401,7 @@ const Account = ({ Header, Footer, Loader, Error, ImageLoader }) => {
             </div>
           </div>
         </main>
-        <Footer />
+        {/*<Footer />*/}
       </>
     );
   } else {

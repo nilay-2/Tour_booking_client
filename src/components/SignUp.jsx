@@ -8,7 +8,7 @@ import {
   setLocalStorage,
   BACKEND_URL,
 } from "./utils/util";
-const SignUp = ({ Header, Footer }) => {
+const SignUp = () => {
   useEffect(() => {
     document.title = "Natours | Create an account";
   }, []);
@@ -54,7 +54,7 @@ const SignUp = ({ Header, Footer }) => {
   };
   return (
     <>
-      <Header />
+      {/*<Header />*/}
       <main className="main">
         <div className="login-form">
           <h2 className="heading-secondary ma-bt-lg">Create an account</h2>
@@ -143,7 +143,7 @@ const SignUp = ({ Header, Footer }) => {
           </div>
         </div>
       </main>
-      <Footer />
+      {/*<Footer />*/}
     </>
   );
 };
