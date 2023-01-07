@@ -101,12 +101,12 @@ const Overview = ({ Header, Footer, Loader }) => {
                       </span>
                     </p>
 
-                    <Link
-                      to={`/tours/${tour.slug}`}
+                    <a
+                      href={`/tours/${tour.slug}`}
                       className="btn btn--green btn--small"
                     >
                       Details
-                    </Link>
+                    </a>
                   </div>
                 </div>
               );
