@@ -58,21 +58,9 @@ const MyBookings = ({ Header, Footer, Loader, NoBookings }) => {
       );
     }
   };
-  // cancel booking modal
-  // const openModal = () => {
-  //   setIsOpen(true);
-  // };
-
-  // const closeCancellationModal = (val) => {
-  //   setIsOpen(true);
-  // };
   if (!isLoading && tours.length > 0) {
     return (
       <div>
-        {/*<CancelBookingModal
-          isOpen={isOpen}
-          closeCancellationModal={closeCancellationModal}
-    />*/}
         <Header />
         <main className="main">
           <div className="card-container">
