@@ -1,3 +1,12 @@
+import { storage } from "./firebase";
+import {
+  ref,
+  uploadBytes,
+  listAll,
+  getDownloadURL,
+  uploadString,
+} from "firebase/storage";
+
 export const getLocaleDate = (date, options) => {
   return new Date(date).toLocaleString("en-us", options);
 };
@@ -33,3 +42,20 @@ export const clearInput = (state, setState) => {
 
 export const BACKEND_URL = "https://tour-booking-server.vercel.app";
 // export const BACKEND_URL = "http://127.0.0.1:3000";
+
+export const setUserImage = (setState) => {
+  const imageListRef = ref(storage, "images/users/");
+  listAll(imageListRef).then((response) => {
+    response.items.forEach((item) => {
+      getDownloadURL(item).then((url) => {
+        const currUserPhoto = JSON.parse(
+          localStorage.getItem("userData")
+        ).photo;
+        const currImageRef = ref(storage, url);
+        if (currImageRef.name === currUserPhoto) {
+          setState(url);
+        }
+      });
+    });
+  });
+};

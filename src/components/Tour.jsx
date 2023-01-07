@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getLocaleDate } from "./utils/util";
-import { BACKEND_URL } from "./utils/util";
+import { BACKEND_URL, setUserImage } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const Tour = ({ Header, Footer, Loader, Map, Error }) => {
@@ -9,7 +9,9 @@ const Tour = ({ Header, Footer, Loader, Map, Error }) => {
   const [tour, setTour] = useState();
   const [user, setUser] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [imageURL, setImageURL] = useState("");
   useEffect(() => {
+    setUserImage(setImageURL);
     if (localStorage.getItem("userData")) {
       setUser(JSON.parse(localStorage.getItem("userData")));
     }

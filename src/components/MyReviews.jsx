@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getFormInput, clearInput, BACKEND_URL } from "./utils/util";
+import {
+  getFormInput,
+  clearInput,
+  BACKEND_URL,
+  setUserImage,
+} from "./utils/util";
 import EditReviewModal from "./Modal/EditReviewModal";
 import DeleteReviewModal from "./Modal/DeleteReviewModal";
 import { storage } from "./utils/firebase";
@@ -32,22 +37,7 @@ const MyReviews = ({ Header, Footer, Loader }) => {
       setUser(JSON.parse(localStorage.getItem("userData")));
       setIsLoading(false);
     }
-    const imageListRef = ref(storage, "images/users/");
-    listAll(imageListRef).then((response) => {
-      response.items.forEach((item) => {
-        getDownloadURL(item).then((url) => {
-          const currUserPhoto = JSON.parse(
-            localStorage.getItem("userData")
-          ).photo;
-          const currImageRef = ref(storage, url);
-          // console.log(currImageRef.name);
-          // console.log(imageFileName);
-          if (currImageRef.name === currUserPhoto) {
-            setImageURL(url);
-          }
-        });
-      });
-    });
+    setUserImage(setImageURL);
     const fetchTourData = async () => {
       const res = await fetch(`${BACKEND_URL}/api/v1/bookings/myTourBookings`, {
         method: "GET",

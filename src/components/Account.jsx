@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getFormInput, clearInput, setLocalStorage } from "./utils/util";
-import { BACKEND_URL } from "./utils/util";
+import { BACKEND_URL, setUserImage } from "./utils/util";
 import { storage } from "./utils/firebase";
 import {
   ref,
@@ -43,19 +43,7 @@ const Account = ({ Header, Footer, Loader, Error }) => {
       setUser(JSON.parse(localStorage.getItem("userData")));
       setIsLoading(false);
     }
-    const imageListRef = ref(storage, "images/users/");
-
-    listAll(imageListRef).then((response) => {
-      response.items.forEach((item) => {
-        getDownloadURL(item).then((url) => {
-          const currUserPhoto = JSON.parse(localStorage.getItem("userData"));
-          const currImageRef = ref(storage, url);
-          if (currImageRef.name === currUserPhoto.photo) {
-            setImageURL(url);
-          }
-        });
-      });
-    });
+    setUserImage(setImageURL);
   }, []);
   // user password update
   const updateUserPass = async (e) => {

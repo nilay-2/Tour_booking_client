@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL } from "./utils/util";
+import { BACKEND_URL, setUserImage } from "./utils/util";
 import { storage } from "./utils/firebase";
 import {
   ref,
@@ -18,22 +18,7 @@ const Header = () => {
     if (localStorage.getItem("userData")) {
       setUserInfo(JSON.parse(localStorage.getItem("userData")));
     }
-    const imageListRef = ref(storage, "images/users/");
-    listAll(imageListRef).then((response) => {
-      response.items.forEach((item) => {
-        getDownloadURL(item).then((url) => {
-          const currUserPhoto = JSON.parse(
-            localStorage.getItem("userData")
-          ).photo;
-          const currImageRef = ref(storage, url);
-          // console.log(currImageRef.name);
-          // console.log(imageFileName);
-          if (currImageRef.name === currUserPhoto) {
-            setImageURL(url);
-          }
-        });
-      });
-    });
+    setUserImage(setImageURL);
   }, []);
   const logout = async () => {
     const res = await fetch(`${BACKEND_URL}/api/v1/users/logout`, {
