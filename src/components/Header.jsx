@@ -85,9 +85,9 @@ const Header = () => {
                         className="nav__user-img"
                       />
                     ) : (
-                      <span className="nav__user-img">
+                      <div className="nav__user-img">
                         <ImageLoader />
-                      </span>
+                      </div>
                     )}
                   </>
                 ) : (
