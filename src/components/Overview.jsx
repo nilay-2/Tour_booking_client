@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getLocaleDate } from "./utils/util";
 import { BACKEND_URL } from "./utils/util";
 const Overview = ({ Header, Footer, Loader }) => {
@@ -100,12 +101,12 @@ const Overview = ({ Header, Footer, Loader }) => {
                       </span>
                     </p>
 
-                    <a
-                      href={`/tours/${tour.slug}`}
+                    <Link
+                      to={`/tours/${tour.slug}`}
                       className="btn btn--green btn--small"
                     >
                       Details
-                    </a>
+                    </Link>
                   </div>
                 </div>
               );
