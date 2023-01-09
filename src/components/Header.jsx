@@ -18,6 +18,7 @@ const Header = () => {
   const [contentList, setContentList] = useState(false);
   const [tourList, setTourList] = useState([]);
   const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (localStorage.getItem("userData")) {
       setUserInfo(JSON.parse(localStorage.getItem("userData")));
@@ -100,15 +101,18 @@ const Header = () => {
               />
               {query.length > 0 ? (
                 <div className="search_list-content">
-                  {tourList.length > 0
-                    ? tourList.map((tour, i) => {
-                        return (
-                          <div className="tour-card" key={tour.slug}>
-                            {tour.startLocation.description}
-                          </div>
-                        );
-                      })
-                    : ""}
+                  {/*{tourList.length > 0 && !loading ? (
+                    tourList.map((tour, i) => {
+                      return (
+                        <div className="tour-card" key={tour.slug}>
+                          {tour.startLocation.description}
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <ImageLoader />
+                  )}*/}
+                  <ImageLoader />
                 </div>
               ) : (
                 ""
