@@ -15,12 +15,38 @@ import ImageLoader from "./ImageLoader";
 const Header = () => {
   const [userInfo, setUserInfo] = useState();
   const [imageURL, setImageURL] = useState("");
+  const [contentList, setContentList] = useState(false);
+  const [tourList, setTourList] = useState([]);
+  const [query, setQuery] = useState("");
   useEffect(() => {
     if (localStorage.getItem("userData")) {
       setUserInfo(JSON.parse(localStorage.getItem("userData")));
     }
     setUserImage(setImageURL);
   }, []);
+  useEffect(() => {
+    const fetchListOfTours = async () => {
+      const res = await fetch(
+        `${BACKEND_URL}/api/v1/tours/filterTours?tour=${query}`,
+        {
+          method: "GET",
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await res.json();
+      if (data.status === "success") {
+        setTourList(data.tourList);
+      }
+    };
+    if (query !== "") {
+      fetchListOfTours();
+    } else {
+      setTourList([]);
+    }
+  }, [query]);
   const logout = async () => {
     const res = await fetch(`${BACKEND_URL}/api/v1/users/logout`, {
       method: "get",
@@ -45,6 +71,12 @@ const Header = () => {
       window.location.assign("/");
     }, 2000);
   };
+
+  // content list popup
+  const getQuery = (e) => {
+    setQuery(e.target.value);
+  };
+
   return (
     <>
       <ToastContainer />
@@ -59,11 +91,27 @@ const Header = () => {
                 <use href="/img/icons.svg#icon-search"></use>
               </svg>
             </button>
-            <input
-              type="text"
-              placeholder="Search tours"
-              className="nav__search-input"
-            />
+            <div className="search_list-container">
+              <input
+                type="text"
+                placeholder="Search tours"
+                className="nav__search-input"
+                onChange={getQuery}
+              />
+              {tourList.length > 0 ? (
+                <div className="search_list-content">
+                  {tourList.map((tour, i) => {
+                    return (
+                      <div className="tour-card" key={tour.slug}>
+                        {tour.startLocation.description}
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
           </form>
         </nav>
         <div className="header__logo">
