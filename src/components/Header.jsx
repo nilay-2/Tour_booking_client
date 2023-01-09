@@ -98,15 +98,17 @@ const Header = () => {
                 className="nav__search-input"
                 onChange={getQuery}
               />
-              {tourList.length > 0 ? (
+              {query.length > 0 ? (
                 <div className="search_list-content">
-                  {tourList.map((tour, i) => {
-                    return (
-                      <div className="tour-card" key={tour.slug}>
-                        {tour.startLocation.description}
-                      </div>
-                    );
-                  })}
+                  {tourList.length > 0
+                    ? tourList.map((tour, i) => {
+                        return (
+                          <div className="tour-card" key={tour.slug}>
+                            {tour.startLocation.description}
+                          </div>
+                        );
+                      })
+                    : ""}
                 </div>
               ) : (
                 ""
