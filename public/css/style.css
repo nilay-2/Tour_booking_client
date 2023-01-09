@@ -1786,9 +1786,14 @@ html {
   background-color: #dfdfdf;
 }
 
-.search-loader {
+.search-loader,
+.search-err {
   display: flex;
   height: 100%;
   justify-content: center;
   align-items: center;
+}
+
+.search-err {
+  font-size: large;
 }

@@ -19,6 +19,7 @@ const Header = () => {
   const [tourList, setTourList] = useState([]);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
+  const [searchErr, setSearchErr] = useState("");
   useEffect(() => {
     if (localStorage.getItem("userData")) {
       setUserInfo(JSON.parse(localStorage.getItem("userData")));
@@ -39,7 +40,12 @@ const Header = () => {
       );
       const data = await res.json();
       if (data.status === "success") {
+        console.log(data);
         setTourList(data.tourList);
+        setLoading(false);
+      } else {
+        setSearchErr(data.message);
+        setTourList([]);
       }
     };
     if (query !== "") {
@@ -78,6 +84,7 @@ const Header = () => {
     setQuery(e.target.value);
   };
 
+  console.log(searchErr);
   return (
     <>
       <ToastContainer />
@@ -101,7 +108,7 @@ const Header = () => {
               />
               {query.length > 0 ? (
                 <div className="search_list-content">
-                  {/*{tourList.length > 0 && !loading ? (
+                  {tourList.length > 0 ? (
                     tourList.map((tour, i) => {
                       return (
                         <div className="tour-card" key={tour.slug}>
@@ -110,11 +117,8 @@ const Header = () => {
                       );
                     })
                   ) : (
-                    <ImageLoader />
-                  )}*/}
-                  <div className="search-loader">
-                    <ImageLoader />
-                  </div>
+                    <div className="search-err">{searchErr}</div>
+                  )}
                 </div>
               ) : (
                 ""
