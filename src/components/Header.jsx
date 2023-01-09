@@ -112,7 +112,9 @@ const Header = () => {
                   ) : (
                     <ImageLoader />
                   )}*/}
-                  <ImageLoader />
+                  <div className="search-loader">
+                    <ImageLoader />
+                  </div>
                 </div>
               ) : (
                 ""
