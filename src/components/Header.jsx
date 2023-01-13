@@ -27,6 +27,7 @@ const Header = () => {
     setUserImage(setImageURL);
   }, []);
   useEffect(() => {
+    setLoading(true);
     const fetchListOfTours = async () => {
       const res = await fetch(
         `${BACKEND_URL}/api/v1/tours/filterTours?tour=${query}`,
