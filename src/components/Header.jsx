@@ -119,9 +119,9 @@ const Header = () => {
                       {tourList.length > 0 ? (
                         tourList.map((tour, i) => {
                           return (
-                            <div className="tour-card" key={tour.slug}>
+                            <Link className="tour-card" key={tour.slug}>
                               {tour.startLocation.description}
-                            </div>
+                            </Link>
                           );
                         })
                       ) : (
