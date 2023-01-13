@@ -27,7 +27,8 @@ const Header = () => {
     setUserImage(setImageURL);
   }, []);
   useEffect(() => {
-    // setLoading(true); to display loader on each key stroke
+    setLoading(true); //to display loader on each key stroke
+    setLoading(true); //to display loader on each key stroke
     setSearchErr("");
     const fetchListOfTours = async () => {
       const res = await fetch(
