@@ -28,6 +28,7 @@ const Header = () => {
   }, []);
   useEffect(() => {
     // setLoading(true); to display loader on each key stroke
+    setSearchErr("");
     const fetchListOfTours = async () => {
       const res = await fetch(
         `${BACKEND_URL}/api/v1/tours/filterTours?tour=${query}`,
