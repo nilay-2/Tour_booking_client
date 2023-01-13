@@ -1768,6 +1768,7 @@ html {
   overflow: auto;
 }
 .tour-card {
+  display: block;
   font-size: large;
   font-weight: 600;
   color: #000000;
@@ -1775,6 +1776,8 @@ html {
   padding: 9px 10px;
   background-color: #fff;
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+  text-decoration: none;
+  width: auto;
 }
 
 .tour-card:hover {
