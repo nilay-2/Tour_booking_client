@@ -1797,3 +1797,13 @@ html {
 .search-err {
   font-size: large;
 }
+
+.center-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.display {
+  display: none;
+}

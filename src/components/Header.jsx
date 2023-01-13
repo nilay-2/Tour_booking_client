@@ -45,6 +45,7 @@ const Header = () => {
         setLoading(false);
       } else {
         setSearchErr(data.message);
+        setLoading(false);
         setTourList([]);
       }
     };
@@ -108,16 +109,24 @@ const Header = () => {
               />
               {query.length > 0 ? (
                 <div className="search_list-content">
-                  {tourList.length > 0 ? (
-                    tourList.map((tour, i) => {
-                      return (
-                        <div className="tour-card" key={tour.slug}>
-                          {tour.startLocation.description}
-                        </div>
-                      );
-                    })
+                  {loading ? (
+                    <div className="serach_list-content center-loader">
+                      <ImageLoader />
+                    </div>
                   ) : (
-                    <div className="search-err">{searchErr}</div>
+                    <>
+                      {tourList.length > 0 ? (
+                        tourList.map((tour, i) => {
+                          return (
+                            <div className="tour-card" key={tour.slug}>
+                              {tour.startLocation.description}
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <div className="search-err">{searchErr}</div>
+                      )}
+                    </>
                   )}
                 </div>
               ) : (
