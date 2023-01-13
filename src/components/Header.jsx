@@ -27,7 +27,7 @@ const Header = () => {
     setUserImage(setImageURL);
   }, []);
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true); to display loader on each key stroke
     const fetchListOfTours = async () => {
       const res = await fetch(
         `${BACKEND_URL}/api/v1/tours/filterTours?tour=${query}`,
@@ -111,7 +111,7 @@ const Header = () => {
               {query.length > 0 ? (
                 <div className="search_list-content">
                   {loading ? (
-                    <div className="serach_list-content center-loader">
+                    <div className="serach_list-content center_loader">
                       <ImageLoader />
                     </div>
                   ) : (
