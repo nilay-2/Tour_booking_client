@@ -122,7 +122,7 @@ const Header = () => {
                             <a
                               className="tour-card"
                               key={tour.slug}
-                              to={`/tours/${tour.slug}`}
+                              href={`/tours/${tour.slug}`}
                             >
                               {tour.startLocation.description}
                             </a>
