@@ -1,5 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useParams, ScrollRestoration } from "react-router-dom";
 import { useEffect, useState } from "react";
+import ScrollToTop from "./ScrollToTop";
 import { getLocaleDate } from "./utils/util";
 import { BACKEND_URL, setUserImage } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
@@ -64,6 +65,7 @@ const Tour = ({ Loader, Map, Error }) => {
   // } else
   return (
     <div>
+      <ScrollToTop />
       {/*<Header />*/}
       {isLoading ? (
         <main className="main">
