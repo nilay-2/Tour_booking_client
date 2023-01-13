@@ -17,6 +17,7 @@ const Header = () => {
   const [imageURL, setImageURL] = useState("");
   const [contentList, setContentList] = useState(false);
   const [tourList, setTourList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [searchErr, setSearchErr] = useState("");
   useEffect(() => {
@@ -26,8 +27,6 @@ const Header = () => {
     setUserImage(setImageURL);
   }, []);
   useEffect(() => {
-    const [loading, setLoading] = useState(true);
-
     const fetchListOfTours = async () => {
       const res = await fetch(
         `${BACKEND_URL}/api/v1/tours/filterTours?tour=${query}`,
