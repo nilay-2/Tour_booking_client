@@ -156,9 +156,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
     const data = await res.json();
     if (data.status === "success") {
       updateUser(data.updatedUser);
-      toast.success("Deleted successfully!", {
-        autoClose: false,
-      });
+      toast.success("Deleted successfully!");
     } else {
       toast.error("Error occurred while updating user info!");
     }
@@ -291,16 +289,28 @@ const Account = ({ Loader, Error, ImageLoader }) => {
                     >
                       Discard image
                   </button>*/}
-                    <button className="btn-upload" onClick={uploadImage}>
+                    <button className="btn-upload active" onClick={uploadImage}>
                       <i className="bi bi-upload"></i>
                       <span className="span-upload">upload</span>
                     </button>
-                    <button className="btn-delete">
-                      <i className="bi bi-trash3-fill"></i>
-                      <span className="span-upload" onClick={deleteProfilePic}>
-                        Delete
-                      </span>
-                    </button>
+                    {data.photo === "default.jpg" ? (
+                      <button
+                        className="btn-delete"
+                        onClick={deleteProfilePic}
+                        disabled
+                      >
+                        <i className="bi bi-trash3-fill"></i>
+                        <span className="span-upload">Delete</span>
+                      </button>
+                    ) : (
+                      <button
+                        className="btn-delete active"
+                        onClick={deleteProfilePic}
+                      >
+                        <i className="bi bi-trash3-fill"></i>
+                        <span className="span-upload">Delete</span>
+                      </button>
+                    )}
                   </div>
                 </div>
 

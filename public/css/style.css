@@ -1422,15 +1422,18 @@ body {
   display: block;
   padding: 12px;
   border-radius: 5%;
-  cursor: pointer;
   border: none;
 }
 
-.btn_div button:hover {
+.btn_div .active {
+  cursor: pointer;
+}
+
+.btn_div .active:hover {
   background-color: #d3d3d3;
 }
 
-.btn_div button:active {
+.btn_div .active:active {
   background-color: #bbb;
 }
 
