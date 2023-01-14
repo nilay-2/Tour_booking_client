@@ -12,7 +12,7 @@ import { storage } from "./utils/firebase";
 import b64toBlob from "b64-to-blob";
 import { ref, uploadBytes, deleteObject } from "firebase/storage";
 const Account = ({ Loader, Error, ImageLoader, updateUser }) => {
-  const { data, imageURL } = useContext(UserContext);
+  const { data, imageURL, updateUser } = useContext(UserContext);
   const [file, setFile] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [name, setName] = useState(
