@@ -1,31 +1,18 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BACKEND_URL, setUserImage } from "./utils/util";
-import { storage } from "./utils/firebase";
-import {
-  ref,
-  uploadBytes,
-  listAll,
-  getDownloadURL,
-  uploadString,
-} from "firebase/storage";
 import ImageLoader from "./ImageLoader";
+import { useContext } from "react";
+import { UserContext } from "./utils/util";
 const Header = () => {
-  const [userInfo, setUserInfo] = useState();
-  const [imageURL, setImageURL] = useState("");
-  const [contentList, setContentList] = useState(false);
+  const { data, imageURL, updateUser } = useContext(UserContext);
   const [tourList, setTourList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
   const [searchErr, setSearchErr] = useState("");
-  useEffect(() => {
-    if (localStorage.getItem("userData")) {
-      setUserInfo(JSON.parse(localStorage.getItem("userData")));
-    }
-    setUserImage(setImageURL);
-  }, []);
+  const navigate = useNavigate();
   useEffect(() => {
     setLoading(true); //to display loader on each key stroke
     setLoading(true); //to display loader on each key stroke
@@ -43,7 +30,6 @@ const Header = () => {
       );
       const data = await res.json();
       if (data.status === "success") {
-        console.log(data);
         setTourList(data.tourList);
         setLoading(false);
       } else {
@@ -74,21 +60,21 @@ const Header = () => {
       });
       return;
     }
-    localStorage.removeItem("userData");
+    // localStorage.removeItem("userData");
+    updateUser({});
+    navigate("/");
     toast.success("Logged out successfully", {
       position: "top-center",
     });
-    setTimeout(() => {
-      window.location.assign("/");
-    }, 2000);
+    // setTimeout(() => {
+    //   window.location.assign("/");
+    // }, 2000);
   };
 
   // content list popup
   const getQuery = (e) => {
     setQuery(e.target.value);
   };
-
-  console.log(searchErr);
   return (
     <>
       <ToastContainer />
@@ -146,13 +132,14 @@ const Header = () => {
           <img src="/img/logo-white.png" alt="Natours logo" />
         </div>
         <nav className="nav nav--user">
-          {userInfo ? (
+          {Object.keys(data).length !== 0 ? (
             <>
               <a href="#" className="nav__el" onClick={logout}>
                 Log out
               </a>
               <Link to="/me" className="nav__el">
-                {userInfo.photo != "default.jpg" ? (
+                {data?.photo !== "default.jpg" &&
+                Object.keys(data).length !== 0 ? (
                   <>
                     {imageURL != "" ? (
                       <img
@@ -169,7 +156,7 @@ const Header = () => {
                 ) : (
                   <img src="/img/default.jpg" className="nav__user-img" />
                 )}
-                <span>{userInfo.name.split(" ")[0]}</span>
+                <span>{data.name?.split(" ")[0]}</span>
               </Link>
             </>
           ) : (

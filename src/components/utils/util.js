@@ -1,4 +1,5 @@
 import { storage } from "./firebase";
+import React, { useContext } from "react";
 import {
   ref,
   uploadBytes,
@@ -48,14 +49,16 @@ export const setUserImage = (setState) => {
   listAll(imageListRef).then((response) => {
     response.items.forEach((item) => {
       getDownloadURL(item).then((url) => {
-        const currUserPhoto = JSON.parse(
-          localStorage.getItem("userData")
-        ).photo;
+        const currUserPhoto = JSON.parse(localStorage.getItem("userData"));
         const currImageRef = ref(storage, url);
-        if (currImageRef.name === currUserPhoto) {
+        if (currImageRef.name === currUserPhoto?.photo) {
           setState(url);
         }
       });
     });
   });
 };
+
+// user login context
+export const UserContext = React.createContext();
+export const UserProvider = UserContext.Provider;

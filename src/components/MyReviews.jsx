@@ -5,20 +5,13 @@ import {
   getFormInput,
   clearInput,
   BACKEND_URL,
-  setUserImage,
+  UserContext,
 } from "./utils/util";
 import EditReviewModal from "./Modal/EditReviewModal";
 import DeleteReviewModal from "./Modal/DeleteReviewModal";
-import { storage } from "./utils/firebase";
-import {
-  ref,
-  uploadBytes,
-  listAll,
-  getDownloadURL,
-  uploadString,
-} from "firebase/storage";
+import { useContext } from "react";
 const MyReviews = ({ Loader, ImageLoader }) => {
-  const [user, setUser] = useState();
+  const { data, imageURL } = useContext(UserContext);
   const [tourData, setTourData] = useState([]);
   // review state
   const [reviewInfo, setReviewInfo] = useState({ review: "", rating: "" });
@@ -29,15 +22,9 @@ const MyReviews = ({ Loader, ImageLoader }) => {
   // review delete -- modal state
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [tourId, setTourId] = useState();
-  const [imageURL, setImageURL] = useState("");
 
   useEffect(() => {
     document.title = "Natours | My reviews";
-    if (localStorage.getItem("userData")) {
-      setUser(JSON.parse(localStorage.getItem("userData")));
-      setIsLoading(false);
-    }
-    setUserImage(setImageURL);
     const fetchTourData = async () => {
       const res = await fetch(`${BACKEND_URL}/api/v1/bookings/myTourBookings`, {
         method: "GET",
@@ -158,7 +145,8 @@ const MyReviews = ({ Loader, ImageLoader }) => {
                   <div className="right-section">
                     <div className="profile-detail">
                       <div className="profile-image">
-                        {user.photo != "default.jpg" ? (
+                        {data.photo != "default.jpg" &&
+                        Object.keys(data).length !== 0 ? (
                           <>
                             {imageURL != "" ? (
                               <img
@@ -186,7 +174,7 @@ const MyReviews = ({ Loader, ImageLoader }) => {
                           />
                         )}
                       </div>
-                      <div className="name">{user.name}</div>
+                      <div className="name">{data.name}</div>
                       <div className="stars">
                         {" "}
                         Rating

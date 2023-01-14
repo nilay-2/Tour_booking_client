@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "b64-to-blob": "^1.2.19",
     "firebase": "^9.15.0",
     "leaflet": "^1.9.3",
     "react": "^18.2.0",

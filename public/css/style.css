@@ -1291,7 +1291,7 @@ body {
 }
 
 .form__group:not(:last-child) {
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
 }
 
 .form__label {
@@ -1404,8 +1404,43 @@ body {
   font-size: 16px;
 }
 
-.remove--pic {
-  margin-left: auto;
+.btn_div {
+  display: flex;
+  flex-grow: 1;
+  justify-content: end;
+}
+
+.btn_div i {
+  font-size: large;
+}
+
+.btn_div .btn-upload {
+  margin-right: 10px;
+}
+
+.btn_div button {
+  display: block;
+  padding: 12px;
+  border-radius: 5%;
+  cursor: pointer;
+  border: none;
+}
+
+.btn_div button:hover {
+  background-color: #d3d3d3;
+}
+
+.btn_div button:active {
+  background-color: #bbb;
+}
+
+.span-upload {
+  margin-left: 3px;
+  text-transform: uppercase;
+}
+
+.btn-container {
+  width: 50%;
 }
 
 .table-text-center {

@@ -1,21 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getFormInput, clearInput, setLocalStorage } from "./utils/util";
-import { BACKEND_URL, setUserImage } from "./utils/util";
-import { storage } from "./utils/firebase";
 import {
-  ref,
-  uploadBytes,
-  listAll,
-  getDownloadURL,
-  uploadString,
-  deleteObject,
-} from "firebase/storage";
-
-const Account = ({ Loader, Error, ImageLoader }) => {
-  const [user, setUser] = useState();
+  getFormInput,
+  clearInput,
+  BACKEND_URL,
+  UserContext,
+} from "./utils/util";
+import { storage } from "./utils/firebase";
+import b64toBlob from "b64-to-blob";
+import { ref, uploadBytes, deleteObject } from "firebase/storage";
+const Account = ({ Loader, Error, ImageLoader, updateUser }) => {
+  const { data, imageURL } = useContext(UserContext);
   const [file, setFile] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [name, setName] = useState(
@@ -33,17 +30,11 @@ const Account = ({ Loader, Error, ImageLoader }) => {
     password: "",
     passwordConfirm: "",
   });
-  const [imageFileName, setImageFileName] = useState("");
-  const [imageURL, setImageURL] = useState("");
-  // firebase imageList reference to access all images
 
   useEffect(() => {
-    document.title = "Natours | Your account settings";
-    if (localStorage.getItem("userData")) {
-      setUser(JSON.parse(localStorage.getItem("userData")));
+    if (data) {
       setIsLoading(false);
     }
-    setUserImage(setImageURL);
   }, []);
   // user password update
   const updateUserPass = async (e) => {
@@ -58,7 +49,6 @@ const Account = ({ Loader, Error, ImageLoader }) => {
       body: JSON.stringify(userPass),
     });
     const d = await res.json();
-    // console.log(d);
     if (d.status === "success") {
       toast.success(`${d.message}`, {
         position: "top-center",
@@ -90,16 +80,6 @@ const Account = ({ Loader, Error, ImageLoader }) => {
       return;
     }
     const dataObj = { name: name.name, email: email.email };
-    if (file) {
-      const fileName = `user-${email.email}-${Date.now()}.jpeg`;
-      setImageFileName(fileName);
-      dataObj.photo = fileName;
-      // firebase image reference
-      // const resizedFile = await resizeFile(file);
-      const imageRef = ref(storage, `images/users/${fileName}`);
-      uploadBytes(imageRef, file);
-      // uploadString(imageRef, resizedFile, "data_url");
-    }
     const res = await fetch(`${BACKEND_URL}/api/v1/users/updateMe`, {
       method: "PATCH",
       credentials: "include",
@@ -113,24 +93,47 @@ const Account = ({ Loader, Error, ImageLoader }) => {
     const data = await res.json();
     e.target.textContent = "save settings";
     if (data.status === "success") {
-      setLocalStorage("userData", data.updatedUser);
-      toast.success("Updated successfully!", {
-        autoClose: false,
-      });
-      setTimeout(() => {
-        location.reload(true);
-      }, 1000);
+      updateUser(data.updatedUser);
+      toast.success("Updated successfully!");
     } else {
       toast.error("Error occurred while updating user info!");
     }
-    // console.log(data);
+    return;
+  };
+
+  // upload profile image
+  const uploadImage = async (e) => {
+    if (!file) {
+      toast.error("No file selected!");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("photo", file);
+    const res = await fetch(`${BACKEND_URL}/api/v1/users/uploadProfileImage`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: formData,
+    });
+    const data = await res.json();
+    if (data.status === "success") {
+      const { bufferData, updatedUser } = data;
+      const blob = b64toBlob(bufferData.b64data, bufferData.contentType);
+      const imageRef = ref(storage, `images/users/${bufferData.fileName}`);
+      uploadBytes(imageRef, blob);
+      toast.success("Image updated successfully");
+      updateUser(updatedUser);
+    } else {
+      toast.error("Error occurred while upload image");
+    }
     return;
   };
 
   // delete user profile image
   const deleteProfilePic = async (e) => {
     e.preventDefault();
-    console.log(imageURL);
     const imageRef = ref(storage, imageURL);
     deleteObject(imageRef).then(() => {
       console.log("image delete successfully!");
@@ -150,7 +153,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
     });
     const data = await res.json();
     if (data.status === "success") {
-      setLocalStorage("userData", data.updatedUser);
+      updateUser(data.updatedUser);
       toast.success("Deleted successfully!", {
         autoClose: false,
       });
@@ -162,12 +165,11 @@ const Account = ({ Loader, Error, ImageLoader }) => {
     }
     return;
   };
-  if (!user) {
+  if (Object.keys(data).length === 0) {
     return <Error msg="You are not logged in! Please log in to get access" />;
-  } else if (!isLoading) {
+  } else {
     return (
       <>
-        {/*<Header />*/}
         <main className="main">
           <div className="user-view">
             <nav className="user-view__menu">
@@ -205,7 +207,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
                   </a>
                 </li>
               </ul>
-              {user.role === "admin" ? (
+              {data?.role === "admin" ? (
                 <div className="admin-nav">
                   <h5 className="admin-nav__heading">Admin</h5>
                   <ul className="side-nav">
@@ -252,6 +254,57 @@ const Account = ({ Loader, Error, ImageLoader }) => {
                 <h2 className="heading-secondary ma-bt-md">
                   Your account settings
                 </h2>
+                <div className="form__group form__photo-upload">
+                  {data?.photo != "default.jpg" ? (
+                    <>
+                      ``
+                      {imageURL != "" ? (
+                        <img
+                          className="form__user-photo"
+                          src={`${imageURL}`}
+                          alt="User photo"
+                        />
+                      ) : (
+                        <div className="form__user-photo-loader">
+                          <ImageLoader />
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <img className="form__user-photo" src="/img/default.jpg" />
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="photo"
+                    name="photo"
+                    className="form__upload"
+                    onChange={getUserPhoto}
+                  />
+                  <label htmlFor="photo">Choose new photo</label>
+                  <div className="btn_div">
+                    {/*<button className="btn btn--small btn--green">
+                      Save Image
+                    </button>
+                    <button
+                      className="btn btn--small btn--red"
+                      onClick={deleteProfilePic}
+                    >
+                      Discard image
+                  </button>*/}
+                    <button className="btn-upload" onClick={uploadImage}>
+                      <i className="bi bi-upload"></i>
+                      <span className="span-upload">upload</span>
+                    </button>
+                    <button className="btn-delete">
+                      <i className="bi bi-trash3-fill"></i>
+                      <span className="span-upload" onClick={deleteProfilePic}>
+                        Delete
+                      </span>
+                    </button>
+                  </div>
+                </div>
+
                 <form className="form form-user-data">
                   <div className="form__group">
                     <label className="form__label" htmlFor="name">
@@ -264,7 +317,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
                       name="name"
                       required
                       placeholder="Name"
-                      defaultValue={user.name}
+                      defaultValue={data?.name}
                       onChange={(e) => {
                         getFormInput(setName, e);
                       }}
@@ -281,51 +334,13 @@ const Account = ({ Loader, Error, ImageLoader }) => {
                       type="email"
                       required
                       placeholder="Email"
-                      defaultValue={user.email}
+                      defaultValue={data?.email}
                       onChange={(e) => {
                         getFormInput(setEmail, e);
                       }}
                     />
                   </div>
-                  <div className="form__group form__photo-upload">
-                    {user.photo != "default.jpg" ? (
-                      <>
-                        {imageURL != "" ? (
-                          <img
-                            className="form__user-photo"
-                            src={`${imageURL}`}
-                            alt="User photo"
-                          />
-                        ) : (
-                          <div className="form__user-photo-loader">
-                            <ImageLoader />
-                          </div>
-                        )}
-                      </>
-                    ) : (
-                      <img
-                        className="form__user-photo"
-                        src="/img/default.jpg"
-                      />
-                    )}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      id="photo"
-                      name="photo"
-                      className="form__upload"
-                      onChange={getUserPhoto}
-                    />
-                    <label htmlFor="photo">Choose new photo</label>
-                    <div className="remove--pic">
-                      <button
-                        className="btn btn--small btn--red"
-                        onClick={deleteProfilePic}
-                      >
-                        Discard image
-                      </button>
-                    </div>
-                  </div>
+
                   <div className="form__group right">
                     <button
                       className="btn btn--small btn--green"
@@ -401,11 +416,8 @@ const Account = ({ Loader, Error, ImageLoader }) => {
             </div>
           </div>
         </main>
-        {/*<Footer />*/}
       </>
     );
-  } else {
-    return <Loader />;
   }
 };
 
