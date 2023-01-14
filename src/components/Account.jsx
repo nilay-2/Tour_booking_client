@@ -163,7 +163,6 @@ const Account = ({ Loader, Error, ImageLoader }) => {
       toast.success("Deleted successfully!", {
         autoClose: false,
       });
-      updateUser(data.updatedUser);
     } else {
       toast.error("Error occurred while updating user info!");
     }
