@@ -123,6 +123,7 @@ const Account = ({ Loader, Error, ImageLoader, updateUser }) => {
       const blob = b64toBlob(bufferData.b64data, bufferData.contentType);
       const imageRef = ref(storage, `images/users/${bufferData.fileName}`);
       uploadBytes(imageRef, blob);
+      console.log(bufferData, updateUser);
       toast.success("Image updated successfully");
       updateUser(updatedUser);
     } else {
