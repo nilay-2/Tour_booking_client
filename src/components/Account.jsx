@@ -118,6 +118,7 @@ const Account = ({ Loader, Error, ImageLoader, updateUser }) => {
       body: formData,
     });
     const data = await res.json();
+    console.log(data);
     if (data.status === "success") {
       const { bufferData, updatedUser } = data;
       const blob = b64toBlob(bufferData.b64data, bufferData.contentType);
