@@ -72,6 +72,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
 
   // get user photo
   const getUserPhoto = (e) => {
+    console.log(e.target.files[0]);
     if (e.target.files[0]) {
       setFile(e.target.files[0]);
     }
@@ -112,6 +113,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
     setBtnProcessing(true);
     if (!file) {
       toast.error("No file selected!");
+      setBtnProcessing(false);
       return;
     }
     const formData = new FormData();
@@ -138,14 +140,12 @@ const Account = ({ Loader, Error, ImageLoader }) => {
           setBtnProcessing(false);
         });
       });
-
       updateUser(updatedUser);
     } else {
       toast.error("Error occurred while upload image");
     }
     return;
   };
-
   // delete user profile image
   const deleteProfilePic = async (e) => {
     setBtnProcessing(true);
@@ -315,20 +315,10 @@ const Account = ({ Loader, Error, ImageLoader }) => {
                       <button
                         className="btn-delete"
                         onClick={deleteProfilePic}
-                        disabled={btnProcessing}
+                        disabled
                       >
-                        {!btnProcessing ? (
-                          <>
-                            {" "}
-                            <i className="bi bi-trash3-fill"></i>
-                            <span className="span-upload">Delete</span>
-                          </>
-                        ) : (
-                          <>
-                            <i className="bi bi-arrow-clockwise btn-spinner"></i>
-                            <span className="span-upload">uploading</span>
-                          </>
-                        )}
+                        <i className="bi bi-trash3-fill"></i>
+                        <span className="span-upload">Delete</span>
                       </button>
                     ) : (
                       <button
