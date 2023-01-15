@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { setLocalStorage } from "./utils/util";
+import { setLocalStorage, UserContext } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getFormInput, clearInput, BACKEND_URL } from "./utils/util";
+
 const Login = () => {
+  const { updateUser } = useContext(UserContext);
   const [data, setData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
   useEffect(() => {
@@ -23,14 +25,16 @@ const Login = () => {
     });
     const d = await res.json();
     if (d.status === "success") {
+      clearInput(data, setData);
       toast.success("Login successful", {
         position: "top-center",
       });
-      setLocalStorage("userData", d.user);
-      clearInput(data, setData);
-      setTimeout(() => {
-        location.assign("/");
-      }, 1500);
+      // setLocalStorage("userData", d.user);
+      updateUser(d.user);
+      navigate("/");
+      // setTimeout(() => {
+      //   location.assign("/");
+      // }, 1500);
     } else {
       toast.error(`${d.message}`, {
         position: "top-center",

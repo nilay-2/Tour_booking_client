@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -7,19 +7,20 @@ import {
   clearInput,
   setLocalStorage,
   BACKEND_URL,
+  UserContext,
 } from "./utils/util";
 const SignUp = () => {
   useEffect(() => {
     document.title = "Natours | Create an account";
   }, []);
-
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
     passwordConfirm: "",
   });
-
+  const { updateUser } = useContext(UserContext);
+  const navigate = useNavigate();
   const submitData = async (e) => {
     e.target.textContent = "PROCESSING...";
     const res = await fetch(`${BACKEND_URL}/api/v1/users/signup`, {
@@ -35,19 +36,19 @@ const SignUp = () => {
     clearInput(data, setData);
     if (d.status === "success") {
       e.target.textContent = "SIGN UP";
-      setLocalStorage("userData", d.user);
+      // setLocalStorage("userData", d.user);
       toast.success("Account created successfully!", {
         position: "top-center",
-        autoClose: false,
       });
-      setTimeout(() => {
-        location.assign("/");
-      }, 1500);
+      updateUser(d.user);
+      navigate("/");
+      // setTimeout(() => {
+      //   location.assign("/");
+      // }, 1500);
     } else {
       e.target.textContent = "SIGN UP";
       toast.error(`${d.message}`.split(":")[2], {
         position: "top-center",
-        autoClose: false,
       });
     }
     return;

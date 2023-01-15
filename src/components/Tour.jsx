@@ -323,7 +323,7 @@ const Tour = ({ Loader, Map, Error }) => {
                   {tour.duration} days. 1 adventure. Infinite memories. Make it
                   yours today!
                 </p>
-                {user ? (
+                {Object.keys(user).length !== 0 ? (
                   <a
                     className="btn btn--green span-all-rows"
                     id="book-tour"
