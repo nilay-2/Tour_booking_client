@@ -1391,6 +1391,11 @@ body {
   animation: spin 1s linear infinite;
 }
 
+.btn-spinner {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);

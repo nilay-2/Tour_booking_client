@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef, createElement } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,6 +20,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
   const { data, imageURL, updateUser, updateImage } = useContext(UserContext);
   const [file, setFile] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [btnProcessing, setBtnProcessing] = useState(false);
   const [name, setName] = useState(
     localStorage.getItem("userData")
       ? { name: JSON.parse(localStorage.getItem("userData")).name }
@@ -35,7 +36,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
     password: "",
     passwordConfirm: "",
   });
-
+  const itemRef = useRef([]);
   useEffect(() => {
     if (data) {
       setIsLoading(false);
@@ -108,6 +109,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
 
   // upload profile image
   const uploadImage = async (e) => {
+    setBtnProcessing(true);
     if (!file) {
       toast.error("No file selected!");
       return;
@@ -123,7 +125,6 @@ const Account = ({ Loader, Error, ImageLoader }) => {
       body: formData,
     });
     const data = await res.json();
-    // console.log(data);
     if (data.status === "success") {
       const { bufferData, updatedUser } = data;
       const blob = b64toBlob(bufferData.b64data, bufferData.contentType);
@@ -134,11 +135,10 @@ const Account = ({ Loader, Error, ImageLoader }) => {
           toast.success("Image updated successfully", {
             position: "top-center",
           });
-          // console.log(url);
+          setBtnProcessing(false);
         });
       });
-      // getDownloadURL(imageRef).then(url => console.log(url))
-      // console.log(bufferData, updateUser);
+
       updateUser(updatedUser);
     } else {
       toast.error("Error occurred while upload image");
@@ -148,7 +148,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
 
   // delete user profile image
   const deleteProfilePic = async (e) => {
-    e.preventDefault();
+    setBtnProcessing(true);
     const imageRef = ref(storage, imageURL);
     deleteObject(imageRef).then(() => {
       console.log("image delete successfully!");
@@ -169,6 +169,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
     const data = await res.json();
     if (data.status === "success") {
       updateUser(data.updatedUser);
+      setBtnProcessing(false);
       toast.success("Deleted successfully!");
     } else {
       toast.error("Error occurred while updating user info!");
@@ -292,35 +293,62 @@ const Account = ({ Loader, Error, ImageLoader }) => {
                   />
                   <label htmlFor="photo">Choose new photo</label>
                   <div className="btn_div">
-                    {/*<button className="btn btn--small btn--green">
-                      Save Image
-                    </button>
                     <button
-                      className="btn btn--small btn--red"
-                      onClick={deleteProfilePic}
+                      disabled={btnProcessing}
+                      className={`btn-upload ${btnProcessing ? "" : "active"}`}
+                      onClick={uploadImage}
+                      ref={(el) => (itemRef.current[0] = el)}
                     >
-                      Discard image
-                  </button>*/}
-                    <button className="btn-upload active" onClick={uploadImage}>
-                      <i className="bi bi-upload"></i>
-                      <span className="span-upload">upload</span>
+                      {!btnProcessing ? (
+                        <>
+                          <i className="bi bi-upload"></i>
+                          <span className="span-upload">upload</span>
+                        </>
+                      ) : (
+                        <>
+                          <i className="bi bi-arrow-clockwise btn-spinner"></i>
+                          <span className="span-upload">uploading</span>
+                        </>
+                      )}
                     </button>
                     {data.photo === "default.jpg" ? (
                       <button
                         className="btn-delete"
                         onClick={deleteProfilePic}
-                        disabled
+                        disabled={btnProcessing}
                       >
-                        <i className="bi bi-trash3-fill"></i>
-                        <span className="span-upload">Delete</span>
+                        {!btnProcessing ? (
+                          <>
+                            {" "}
+                            <i className="bi bi-trash3-fill"></i>
+                            <span className="span-upload">Delete</span>
+                          </>
+                        ) : (
+                          <>
+                            <i className="bi bi-arrow-clockwise btn-spinner"></i>
+                            <span className="span-upload">uploading</span>
+                          </>
+                        )}
                       </button>
                     ) : (
                       <button
+                        disabled={btnProcessing}
                         className="btn-delete active"
                         onClick={deleteProfilePic}
+                        ref={(el) => (itemRef.current[0] = el)}
                       >
-                        <i className="bi bi-trash3-fill"></i>
-                        <span className="span-upload">Delete</span>
+                        {!btnProcessing ? (
+                          <>
+                            {" "}
+                            <i className="bi bi-trash3-fill"></i>
+                            <span className="span-upload">Delete</span>
+                          </>
+                        ) : (
+                          <>
+                            <i className="bi bi-arrow-clockwise btn-spinner"></i>
+                            <span className="span-upload">uploading</span>
+                          </>
+                        )}
                       </button>
                     )}
                   </div>
