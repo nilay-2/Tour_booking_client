@@ -10,9 +10,14 @@ import {
 } from "./utils/util";
 import { storage } from "./utils/firebase";
 import b64toBlob from "b64-to-blob";
-import { ref, uploadBytes, deleteObject } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  deleteObject,
+  getDownloadURL,
+} from "firebase/storage";
 const Account = ({ Loader, Error, ImageLoader }) => {
-  const { data, imageURL, updateUser } = useContext(UserContext);
+  const { data, imageURL, updateUser, updateImage } = useContext(UserContext);
   const [file, setFile] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [name, setName] = useState(
@@ -118,14 +123,22 @@ const Account = ({ Loader, Error, ImageLoader }) => {
       body: formData,
     });
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     if (data.status === "success") {
       const { bufferData, updatedUser } = data;
       const blob = b64toBlob(bufferData.b64data, bufferData.contentType);
       const imageRef = ref(storage, `images/users/${bufferData.fileName}`);
-      uploadBytes(imageRef, blob);
-      console.log(bufferData, updateUser);
-      toast.success("Image updated successfully");
+      uploadBytes(imageRef, blob).then(() => {
+        getDownloadURL(imageRef).then((url) => {
+          updateImage(url);
+          toast.success("Image updated successfully", {
+            position: "top-center",
+          });
+          // console.log(url);
+        });
+      });
+      // getDownloadURL(imageRef).then(url => console.log(url))
+      // console.log(bufferData, updateUser);
       updateUser(updatedUser);
     } else {
       toast.error("Error occurred while upload image");
@@ -252,9 +265,8 @@ const Account = ({ Loader, Error, ImageLoader }) => {
                   Your account settings
                 </h2>
                 <div className="form__group form__photo-upload">
-                  {data?.photo != "default.jpg" ? (
+                  {data?.photo !== "default.jpg" ? (
                     <>
-                      ``
                       {imageURL != "" ? (
                         <img
                           className="form__user-photo"

@@ -1,7 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { UserContext, UserProvider } from "./components/utils/util";
-import { setUserImage, setLocalStorage } from "./components/utils/util";
+import { setLocalStorage, setUserImage } from "./components/utils/util";
+import {
+  ref,
+  uploadBytes,
+  listAll,
+  getDownloadURL,
+  uploadString,
+} from "firebase/storage";
+import { storage } from "./components/utils/firebase";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
@@ -31,10 +39,13 @@ function App() {
     setLocalStorage("userData", val);
     setData(val);
   };
+  const updateImage = (val) => {
+    setImageURL(val);
+  };
   return (
     <>
       <Router>
-        <UserProvider value={{ data, imageURL, updateUser }}>
+        <UserProvider value={{ data, imageURL, updateUser, updateImage }}>
           <Header />
           <Routes>
             <Route path="/" exact element={<Overview Loader={Loader} />} />

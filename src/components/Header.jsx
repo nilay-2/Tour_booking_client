@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL, setUserImage } from "./utils/util";
+import { BACKEND_URL } from "./utils/util";
 import ImageLoader from "./ImageLoader";
 import { useContext } from "react";
 import { UserContext } from "./utils/util";

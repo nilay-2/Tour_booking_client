@@ -44,19 +44,26 @@ export const clearInput = (state, setState) => {
 export const BACKEND_URL = "https://tour-booking-server.vercel.app";
 // export const BACKEND_URL = "http://127.0.0.1:3000";
 
-export const setUserImage = (setState) => {
-  const imageListRef = ref(storage, "images/users/");
-  listAll(imageListRef).then((response) => {
-    response.items.forEach((item) => {
-      getDownloadURL(item).then((url) => {
-        const currUserPhoto = JSON.parse(localStorage.getItem("userData"));
-        const currImageRef = ref(storage, url);
-        if (currImageRef.name === currUserPhoto?.photo) {
-          setState(url);
-        }
-      });
-    });
-  });
+// export const setUserImage = (setState) => {
+//   const imageListRef = ref(storage, "images/users/");
+//   listAll(imageListRef).then((response) => {
+//     response.items.forEach((item) => {
+//       getDownloadURL(item).then((url) => {
+//         const currUserPhoto = JSON.parse(localStorage.getItem("userData"));
+//         const currImageRef = ref(storage, url);
+//         if (currImageRef.name === currUserPhoto?.photo) {
+//           setState(url);
+//         }
+//       });
+//     });
+//   });
+// };
+export const setUserImage = async (setState) => {
+  const currUserPhoto = JSON.parse(localStorage.getItem("userData"));
+  if (currUserPhoto.photo === "default.jpg") return;
+  const imageRef = ref(storage, `images/users/${currUserPhoto.photo}`);
+  const url = await getDownloadURL(imageRef);
+  setState(url);
 };
 
 // user login context
