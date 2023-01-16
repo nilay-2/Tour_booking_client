@@ -75,6 +75,10 @@ const Header = () => {
   const getQuery = (e) => {
     setQuery(e.target.value);
   };
+
+  const redirectToTour = (slug) => {
+    navigate(`/tours/${slug}`);
+  };
   return (
     <>
       <ToastContainer />
@@ -111,6 +115,9 @@ const Header = () => {
                               className="tour-card"
                               key={tour.slug}
                               href={`/tours/${tour.slug}`}
+                              // onClick={(e) => {
+                              //   redirectToTour(tour.slug);
+                              // }}
                             >
                               {tour.startLocation.description}
                             </a>

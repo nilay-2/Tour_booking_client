@@ -1,4 +1,4 @@
-import { useParams, ScrollRestoration } from "react-router-dom";
+import { useParams, ScrollRestoration, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ScrollToTop from "./ScrollToTop";
 import { getLocaleDate } from "./utils/util";
@@ -332,9 +332,9 @@ const Tour = ({ Loader, Map, Error }) => {
                     Book tour now!
                   </a>
                 ) : (
-                  <a href="/login" className="btn btn--green span-all-rows">
+                  <Link to="/login" className="btn btn--green span-all-rows">
                     Log in to book tour!
-                  </a>
+                  </Link>
                 )}
               </div>
             </div>
