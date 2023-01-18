@@ -46,7 +46,7 @@ const Header = () => {
   }, [query]);
   const logout = async () => {
     const res = await fetch(`${BACKEND_URL}/api/v1/users/logout`, {
-      method: "get",
+      method: "POST",
       credentials: "include",
       headers: {
         "Access-Control-Allow-Origin": "*",
