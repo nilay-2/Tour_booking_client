@@ -35,6 +35,7 @@ function App() {
     }
     setUserImage(setImageURL);
   }, []);
+  console.log(data);
   const updateUser = (val) => {
     setLocalStorage("userData", val);
     setData(val);
