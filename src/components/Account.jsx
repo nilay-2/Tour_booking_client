@@ -311,7 +311,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
                         </>
                       )}
                     </button>
-                    {data.photo === "default.jpg" ? (
+                    {data?.photo === "default.jpg" ? (
                       <button
                         className="btn-delete"
                         onClick={deleteProfilePic}
