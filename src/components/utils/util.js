@@ -60,7 +60,7 @@ export const BACKEND_URL = "https://tour-booking-server.vercel.app";
 // };
 export const setUserImage = async (setState) => {
   const currUserPhoto = JSON.parse(localStorage.getItem("userData"));
-  if (currUserPhoto?.photo === "default.jpg") return;
+  if (Object.keys(currUserPhoto).length === 0) return;
   const imageRef = ref(storage, `images/users/${currUserPhoto.photo}`);
   const url = await getDownloadURL(imageRef);
   setState(url);
