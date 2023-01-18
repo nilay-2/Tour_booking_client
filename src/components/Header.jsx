@@ -61,7 +61,10 @@ const Header = () => {
       return;
     }
     updateUser(null);
-    navigate("/");
+    // navigate("/");
+    setTimeout(() => {
+      location.assign("/");
+    }, 1000);
     toast.success("Logged out successfully", {
       position: "top-center",
     });
