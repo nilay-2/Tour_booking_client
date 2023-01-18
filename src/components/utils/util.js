@@ -41,8 +41,8 @@ export const clearInput = (state, setState) => {
   setState((prev) => ({ ...prev, ...newState }));
 };
 
-export const BACKEND_URL = "https://tour-booking-server.vercel.app";
-// export const BACKEND_URL = "http://127.0.0.1:3000";
+// export const BACKEND_URL = "https://tour-booking-server.vercel.app";
+export const BACKEND_URL = "http://127.0.0.1:3000";
 
 // export const setUserImage = (setState) => {
 //   const imageListRef = ref(storage, "images/users/");
@@ -60,6 +60,7 @@ export const BACKEND_URL = "https://tour-booking-server.vercel.app";
 // };
 export const setUserImage = async (setState) => {
   const currUserPhoto = JSON.parse(localStorage.getItem("userData"));
+  if (currUserPhoto === null || currUserPhoto === undefined) return;
   if (Object.keys(currUserPhoto).length === 0) return;
   const imageRef = ref(storage, `images/users/${currUserPhoto.photo}`);
   const url = await getDownloadURL(imageRef);

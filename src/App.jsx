@@ -28,15 +28,19 @@ import MyReviews from "./components/MyReviews";
 import ImageLoader from "./components/ImageLoader";
 function App() {
   const [imageURL, setImageURL] = useState("");
-  const [data, setData] = useState({});
+  const [data, setData] = useState(null);
   useEffect(() => {
     if (localStorage.getItem("userData")) {
       setData(JSON.parse(localStorage.getItem("userData")));
     }
     setUserImage(setImageURL);
   }, []);
-  console.log(data);
   const updateUser = (val) => {
+    if (val === null) {
+      localStorage.removeItem("userData");
+      setData(null);
+      return;
+    }
     setLocalStorage("userData", val);
     setData(val);
   };

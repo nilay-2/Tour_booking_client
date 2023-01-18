@@ -60,15 +60,11 @@ const Header = () => {
       });
       return;
     }
-    // localStorage.removeItem("userData");
-    updateUser({});
+    updateUser(null);
     navigate("/");
     toast.success("Logged out successfully", {
       position: "top-center",
     });
-    // setTimeout(() => {
-    //   window.location.assign("/");
-    // }, 2000);
   };
 
   // content list popup
@@ -139,14 +135,13 @@ const Header = () => {
           <img src="/img/logo-white.png" alt="Natours logo" />
         </div>
         <nav className="nav nav--user">
-          {Object.keys(data).length !== 0 ? (
+          {data !== undefined && data !== null ? (
             <>
               <a href="#" className="nav__el" onClick={logout}>
                 Log out
               </a>
               <Link to="/me" className="nav__el">
-                {data?.photo !== "default.jpg" &&
-                Object.keys(data).length !== 0 ? (
+                {data?.photo !== "default.jpg" ? (
                   <>
                     {imageURL != "" ? (
                       <img

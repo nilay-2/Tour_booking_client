@@ -145,8 +145,7 @@ const MyReviews = ({ Loader, ImageLoader }) => {
                   <div className="right-section">
                     <div className="profile-detail">
                       <div className="profile-image">
-                        {data?.photo != "default.jpg" &&
-                        Object.keys(data).length !== 0 ? (
+                        {data?.photo != "default.jpg" ? (
                           <>
                             {imageURL != "" ? (
                               <img

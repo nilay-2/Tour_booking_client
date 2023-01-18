@@ -323,7 +323,11 @@ const Tour = ({ Loader, Map, Error }) => {
                   {tour.duration} days. 1 adventure. Infinite memories. Make it
                   yours today!
                 </p>
-                {Object.keys(user).length !== 0 ? (
+                {user === null || user === undefined ? (
+                  <Link to="/login" className="btn btn--green span-all-rows">
+                    Log in to book tour!
+                  </Link>
+                ) : (
                   <a
                     className="btn btn--green span-all-rows"
                     id="book-tour"
@@ -331,10 +335,6 @@ const Tour = ({ Loader, Map, Error }) => {
                   >
                     Book tour now!
                   </a>
-                ) : (
-                  <Link to="/login" className="btn btn--green span-all-rows">
-                    Log in to book tour!
-                  </Link>
                 )}
               </div>
             </div>

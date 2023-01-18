@@ -18,6 +18,7 @@ import {
 } from "firebase/storage";
 const Account = ({ Loader, Error, ImageLoader }) => {
   const { data, imageURL, updateUser, updateImage } = useContext(UserContext);
+  console.log(data);
   const [file, setFile] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [btnProcessing, setBtnProcessing] = useState(false);
@@ -176,7 +177,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
     }
     return;
   };
-  if (Object.keys(data).length === 0) {
+  if (data === null || data === undefined) {
     return <Error msg="You are not logged in! Please log in to get access" />;
   } else {
     return (
