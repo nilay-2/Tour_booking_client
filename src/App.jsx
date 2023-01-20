@@ -33,7 +33,6 @@ function App() {
     if (localStorage.getItem("userData")) {
       setData(JSON.parse(localStorage.getItem("userData")));
     }
-    setUserImage(setImageURL);
   }, []);
   const updateUser = (val) => {
     if (val === null) {

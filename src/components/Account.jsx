@@ -18,7 +18,7 @@ import {
 } from "firebase/storage";
 const Account = ({ Loader, Error, ImageLoader }) => {
   const { data, imageURL, updateUser, updateImage } = useContext(UserContext);
-  console.log(data);
+  // console.log(data);
   const [file, setFile] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [btnProcessing, setBtnProcessing] = useState(false);
@@ -73,7 +73,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
 
   // get user photo
   const getUserPhoto = (e) => {
-    console.log(e.target.files[0]);
+    // console.log(e.target.files[0]);
     if (e.target.files[0]) {
       setFile(e.target.files[0]);
     }
@@ -129,19 +129,36 @@ const Account = ({ Loader, Error, ImageLoader }) => {
     });
     const data = await res.json();
     if (data.status === "success") {
+      let imageObj;
       const { bufferData, updatedUser } = data;
       const blob = b64toBlob(bufferData.b64data, bufferData.contentType);
       const imageRef = ref(storage, `images/users/${bufferData.fileName}`);
       uploadBytes(imageRef, blob).then(() => {
-        getDownloadURL(imageRef).then((url) => {
+        getDownloadURL(imageRef).then(async (url) => {
           updateImage(url);
+          const newObj = { ...updatedUser };
+          newObj.photo = url;
+          const saveImage = await fetch(
+            `${BACKEND_URL}/api/v1/users/updateMe`,
+            {
+              method: "PATCH",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(newObj),
+            }
+          );
+          const imageRes = await saveImage.json();
+          const { updatedUser: firebaseImg } = imageRes;
+          // imageObj = { ...firebaseImg };
+          updateUser(firebaseImg);
           toast.success("Image updated successfully", {
             position: "top-center",
           });
           setBtnProcessing(false);
         });
       });
-      updateUser(updatedUser);
     } else {
       toast.error("Error occurred while upload image");
     }
@@ -269,10 +286,10 @@ const Account = ({ Loader, Error, ImageLoader }) => {
                 <div className="form__group form__photo-upload">
                   {data?.photo !== "default.jpg" ? (
                     <>
-                      {imageURL != "" ? (
+                      {data?.photo != "" ? (
                         <img
                           className="form__user-photo"
-                          src={`${imageURL}`}
+                          src={`${data.photo}`}
                           alt="User photo"
                         />
                       ) : (

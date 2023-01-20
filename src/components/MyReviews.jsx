@@ -147,9 +147,9 @@ const MyReviews = ({ Loader, ImageLoader }) => {
                       <div className="profile-image">
                         {data?.photo != "default.jpg" ? (
                           <>
-                            {imageURL != "" ? (
+                            {data.photo != "" ? (
                               <img
-                                src={`${imageURL}`}
+                                src={`${data.photo}`}
                                 alt="User photo"
                                 className="nav__user-img"
                               />

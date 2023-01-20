@@ -72,9 +72,6 @@ const Header = () => {
     setQuery(e.target.value);
   };
 
-  const redirectToTour = (slug) => {
-    navigate(`/tours/${slug}`);
-  };
   return (
     <>
       <ToastContainer />
@@ -111,9 +108,6 @@ const Header = () => {
                               className="tour-card"
                               key={tour.slug}
                               href={`/tours/${tour.slug}`}
-                              // onClick={(e) => {
-                              //   redirectToTour(tour.slug);
-                              // }}
                             >
                               {tour.startLocation.description}
                             </a>
@@ -143,9 +137,9 @@ const Header = () => {
               <Link to="/me" className="nav__el">
                 {data?.photo !== "default.jpg" ? (
                   <>
-                    {imageURL != "" ? (
+                    {data.photo != "" ? (
                       <img
-                        src={`${imageURL}`}
+                        src={`${data.photo}`}
                         alt="User photo"
                         className="nav__user-img"
                       />
