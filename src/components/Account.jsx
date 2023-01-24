@@ -167,6 +167,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
   // delete user profile image
   const deleteProfilePic = async (e) => {
     setBtnProcessing(true);
+    console.log(imageURL);
     const imageRef = ref(storage, imageURL);
     deleteObject(imageRef).then(() => {
       console.log("image delete successfully!");
