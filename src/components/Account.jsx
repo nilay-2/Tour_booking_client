@@ -167,10 +167,9 @@ const Account = ({ Loader, Error, ImageLoader }) => {
   console.log(data?.photo);
   // delete user profile image
   const deleteProfilePic = async (e) => {
-    if (data?.photo === "default.jpg") return;
     setBtnProcessing(true);
     console.log("imageURL for deleting", data?.photo);
-    const imageRef = ref(storage, imageURL);
+    const imageRef = ref(storage, data?.photo);
     deleteObject(imageRef).then(() => {
       console.log("image delete successfully!");
     });
@@ -187,9 +186,9 @@ const Account = ({ Loader, Error, ImageLoader }) => {
         photo: "default.jpg",
       }),
     });
-    const data = await res.json();
-    if (data.status === "success") {
-      updateUser(data.updatedUser);
+    const dataRes = await res.json();
+    if (dataRes.status === "success") {
+      updateUser(dataRes.updatedUser);
       setBtnProcessing(false);
       toast.success("Deleted successfully!");
     } else {
