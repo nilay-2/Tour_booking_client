@@ -164,6 +164,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
     }
     return;
   };
+  console.log(imageURL);
   // delete user profile image
   const deleteProfilePic = async (e) => {
     setBtnProcessing(true);
