@@ -1,5 +1,5 @@
-# Tour_booking_client
+# Natours
 
-# It is a web app which allows users to search tours by their location eg:- New york. It has user authentication with login, signup, forgot password features. Users can book tours on available dates and they can also review them.
+### It is a web app which allows users to search tours by their location eg:- New york with features like user authentication using jsonWebToken (JWT) and httpOnly cookies, integrated with Stripe test payment gateway and firebase storage for storing user and tour images. 
 
-## Live Link --> https://touradventurer.netlify.app
+### Live Link --> https://touradventurer.netlify.app/
