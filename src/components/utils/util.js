@@ -41,7 +41,10 @@ export const clearInput = (state, setState) => {
   setState((prev) => ({ ...prev, ...newState }));
 };
 
-export const BACKEND_URL = "https://tour-booking-server.vercel.app";
+export const BACKEND_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://tour-booking-server.vercel.app"
+    : "http://127.0.0.1:3000";
 // export const BACKEND_URL = "http://127.0.0.1:3000";
 
 // export const setUserImage = (setState) => {

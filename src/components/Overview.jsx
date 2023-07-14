@@ -10,14 +10,15 @@ const Overview = ({ Loader }) => {
     document.title = "Natours app | All tours";
     const fetchData = async () => {
       const res = await fetch(`${BACKEND_URL}/api/v1/tours`, {
-        method: "get",
+        method: "GET",
         headers: {
           "Access-Control-Allow-Origin": "*",
           "Content-Type": "application/json",
         },
       });
       const tours = await res.json();
-      setData(tours.data);
+      console.log(tours);
+      setData(tours?.data);
       setIsLoading(false);
     };
     fetchData();
