@@ -4,7 +4,7 @@ import { setLocalStorage, UserContext } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getFormInput, clearInput, BACKEND_URL } from "./utils/util";
-
+import { getAccessControlAllowOrigin } from "./utils/util";
 const Login = () => {
   const { updateUser } = useContext(UserContext);
   const [data, setData] = useState({ email: "", password: "" });
@@ -18,7 +18,7 @@ const Login = () => {
       method: "post",
       credentials: "include",
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),

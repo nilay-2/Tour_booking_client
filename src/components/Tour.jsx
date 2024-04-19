@@ -1,7 +1,7 @@
 import { useParams, ScrollRestoration, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ScrollToTop from "./ScrollToTop";
-import { getLocaleDate } from "./utils/util";
+import { getAccessControlAllowOrigin, getLocaleDate } from "./utils/util";
 import { BACKEND_URL, setUserImage } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,7 +21,7 @@ const Tour = ({ Loader, Map, Error }) => {
         method: "get",
         // credentials: "include",
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
           "Content-Type": "application/json",
         },
       });
@@ -46,7 +46,7 @@ const Tour = ({ Loader, Map, Error }) => {
         method: "get",
         credentials: "include",
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
           "Content-Type": "application/json",
         },
       }

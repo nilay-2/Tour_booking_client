@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { BACKEND_URL } from "./utils/util";
+import { getAccessControlAllowOrigin } from "./utils/util";
 const MyBookings = ({ Loader, NoBookings }) => {
   const [tours, setTours] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -16,7 +17,7 @@ const MyBookings = ({ Loader, NoBookings }) => {
         method: "GET",
         credentials: "include",
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
           "Content-Type": "application/json",
         },
       });
@@ -38,7 +39,7 @@ const MyBookings = ({ Loader, NoBookings }) => {
       method: "POST",
       credentials: "include",
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ tour }),

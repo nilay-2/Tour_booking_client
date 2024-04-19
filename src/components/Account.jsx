@@ -16,6 +16,7 @@ import {
   deleteObject,
   getDownloadURL,
 } from "firebase/storage";
+import { getAccessControlAllowOrigin } from "./utils/util";
 const Account = ({ Loader, Error, ImageLoader }) => {
   const { data, imageURL, updateUser, updateImage } = useContext(UserContext);
   // console.log(data);
@@ -50,7 +51,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
       method: "PATCH",
       credentials: "include",
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
         "Content-Type": "application/json",
       },
       body: JSON.stringify(userPass),
@@ -93,7 +94,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
       },
       body: JSON.stringify(dataObj),
     });
@@ -123,7 +124,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
       method: "PATCH",
       credentials: "include",
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
       },
       body: formData,
     });
@@ -178,7 +179,7 @@ const Account = ({ Loader, Error, ImageLoader }) => {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
       },
       body: JSON.stringify({
         name: name.name,

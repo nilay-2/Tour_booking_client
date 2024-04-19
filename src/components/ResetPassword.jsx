@@ -8,6 +8,7 @@ import {
 } from "./utils/util";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getAccessControlAllowOrigin } from "./utils/util";
 const ResetPassword = () => {
   useEffect(() => {
     document.title = "Natours | Reset your password";
@@ -32,7 +33,7 @@ const ResetPassword = () => {
         method: "PATCH",
         credentials: "include",
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
           "Content-Type": "application/json",
         },
         body: JSON.stringify(passwordInfo),

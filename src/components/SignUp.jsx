@@ -9,6 +9,7 @@ import {
   BACKEND_URL,
   UserContext,
 } from "./utils/util";
+import { getAccessControlAllowOrigin } from "./utils/util";
 const SignUp = () => {
   useEffect(() => {
     document.title = "Natours | Create an account";
@@ -27,7 +28,7 @@ const SignUp = () => {
       method: "POST",
       credentials: "include",
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),

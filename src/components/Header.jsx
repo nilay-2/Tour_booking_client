@@ -6,6 +6,7 @@ import { BACKEND_URL } from "./utils/util";
 import ImageLoader from "./ImageLoader";
 import { useContext } from "react";
 import { UserContext } from "./utils/util";
+import { getAccessControlAllowOrigin } from "./utils/util";
 const Header = () => {
   const { data, imageURL, updateUser } = useContext(UserContext);
   const [tourList, setTourList] = useState([]);
@@ -23,7 +24,7 @@ const Header = () => {
         {
           method: "GET",
           headers: {
-            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
             "Content-Type": "application/json",
           },
         }
@@ -49,7 +50,7 @@ const Header = () => {
       method: "POST",
       credentials: "include",
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
         "Content-Type": "application/json",
       },
     });

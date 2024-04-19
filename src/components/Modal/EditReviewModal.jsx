@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL } from "../utils/util";
+import { BACKEND_URL, getAccessControlAllowOrigin } from "../utils/util";
 
 export default ({ isOpen, closeModal, tourId, reviewInfo }) => {
   const closeOnOverlay = () => {
@@ -24,7 +24,7 @@ export default ({ isOpen, closeModal, tourId, reviewInfo }) => {
       method: "PATCH",
       credentials: "include",
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
         "Content-Type": "application/json",
       },
       body: JSON.stringify(reviewObj),

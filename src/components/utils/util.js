@@ -73,3 +73,9 @@ export const setUserImage = async (setState) => {
 // user login context
 export const UserContext = React.createContext();
 export const UserProvider = UserContext.Provider;
+
+export const getAccessControlAllowOrigin = () => {
+  if (process.env.NODE_ENV === "production")
+    return "https://touradventurer.netlify.app";
+  return "http://127.0.0.1:5173";
+};
