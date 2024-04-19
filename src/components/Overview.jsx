@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getLocaleDate } from "./utils/util";
 import { BACKEND_URL } from "./utils/util";
+import { getAccessControlAllowOrigin } from "./utils/util";
 const Overview = ({ Loader }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -12,7 +13,7 @@ const Overview = ({ Loader }) => {
       const res = await fetch(`${BACKEND_URL}/api/v1/tours`, {
         method: "GET",
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
           "Content-Type": "application/json",
         },
       });

@@ -10,6 +10,7 @@ import {
 import EditReviewModal from "./Modal/EditReviewModal";
 import DeleteReviewModal from "./Modal/DeleteReviewModal";
 import { useContext } from "react";
+import { getAccessControlAllowOrigin } from "./utils/util";
 const MyReviews = ({ Loader, ImageLoader }) => {
   const { data, imageURL } = useContext(UserContext);
   const [tourData, setTourData] = useState([]);
@@ -30,7 +31,7 @@ const MyReviews = ({ Loader, ImageLoader }) => {
         method: "GET",
         credentials: "include",
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
           "Content-Type": "application/json",
         },
       });
@@ -56,7 +57,7 @@ const MyReviews = ({ Loader, ImageLoader }) => {
         method: "POST",
         credentials: "include",
         headers: {
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": getAccessControlAllowOrigin(),
           "Content-Type": "application/json",
         },
         body: JSON.stringify(reviewInfo),
